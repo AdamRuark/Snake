@@ -24,10 +24,17 @@ function createBoard(){
 
 //global so move is only called once
 var intervalId;
-var key;
+var key = null;
 
 function userInput(e, row = 0, col = 0){
-	key = e.keyCode
+
+	//if already going direction, don't change it.
+	if(e.keyCode != key){
+		console.log("changed");
+		key = e.keyCode;
+	}
+
+	//call move once here to initialize it
 	if (intervalId == null) {
     	move(row, col);
     }
@@ -55,7 +62,7 @@ function move(row, col){
 
 	console.log(row + " " + col);
 
-	//set it on loop until new input
+	//set it on loop indefinitely
 	if(intervalId){
 		clearInterval(intervalId);
 	}
