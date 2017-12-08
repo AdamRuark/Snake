@@ -3,20 +3,16 @@ window.onkeydown = userInput;
 
 
 function createBoard(){
-	//get main element
 	var tr, td;
-	var table = document.createElement("table");
 	var main = document.getElementsByTagName("main");
+	var table = document.createElement("table");
 	main = main[0];
-	main.appendChild(table);
 
+	//add all the columns and rows
 	for(var i = 0; i < 20; i++){
 		tr = document.createElement("tr");
-		tr.className += "row" + i; 
-
 		for(var j = 0; j < 20; j++){
 			td = document.createElement("td");
-			td.className += "col" + j;
 			tr.appendChild(td);
 
 		}
@@ -25,16 +21,48 @@ function createBoard(){
 	main.appendChild(table);
 }
 
-function userInput(e){
-	var td = document.getElementsByTagName("td");
-	if(e.keyCode == 37){
-		for(var i = 0; i < td.length; i++){
-			td[i].style.backgroundColor = "green";
-		}
+
+//global so move is only called once
+var intervalId;
+var key;
+
+function userInput(e, row = 0, col = 0){
+	key = e.keyCode
+	if (intervalId == null) {
+    	move(row, col);
+    }
+}
+
+function move(row, col){
+	//change the color
+	changeColor("green", row, col);
+
+	//increment the direction
+	switch(key){
+		case 37:
+			col--;
+			break;
+		case 38:
+			row--;
+			break;
+		case 39:
+			col++;
+			break;
+		case 40:
+			row++;
+			break;
 	}
-	else {
-		for(var i = 0; i < td.length; i++){
-			td[i].style.backgroundColor = "red";
-		}
+
+	console.log(row + " " + col);
+
+	//set it on loop until new input
+	if(intervalId){
+		clearInterval(intervalId);
 	}
+	intervalId = setInterval(function(){move(row, col);}, 100);
+}
+
+function changeColor(color, row, col){
+	var tr = document.getElementsByTagName("tr");
+	tr[row].childNodes[col].style.backgroundColor = color;
 }
