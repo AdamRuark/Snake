@@ -30,6 +30,9 @@ function createGame(){
 	for(var i = 0; i < snake.len; i++){
 		snake.body.push({row:15-i, col:15});
 	}
+
+	//add initial star
+	addStar();
 }
 
 function userInput(e){
@@ -85,6 +88,25 @@ function gameLoop(){
 		}
 		intervalId = setInterval(gameLoop, 50);
 	}
+}
+
+function addStar(){
+	//get random location
+	do {
+		var row = Math.floor(Math.random() * 30);
+		var col = Math.floor(Math.random() * 30);
+	} while (checkStarPos(row, col));
+
+	changeClass("star", row, col); 
+}
+
+function checkStarPos(row, col){
+	for(var i = 0; i < snake.len; i++){
+		if(snake.body[i].row == row || snake.body[i].col == col){
+			return true;
+		}
+	}
+	return false;
 }
 
 function updateSnake(prevHead){
