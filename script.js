@@ -9,9 +9,9 @@ function createBoard(){
 	main = main[0];
 
 	//add all the columns and rows
-	for(var i = 0; i < 20; i++){
+	for(var i = 0; i < 30; i++){
 		tr = document.createElement("tr");
-		for(var j = 0; j < 20; j++){
+		for(var j = 0; j < 30; j++){
 			td = document.createElement("td");
 			tr.appendChild(td);
 
@@ -28,16 +28,23 @@ var key = null;
 
 function userInput(e, row = 0, col = 0){
 
-	//if already going direction, don't change it.
-	if(e.keyCode != key){
-		console.log("changed");
-		key = e.keyCode;
-	}
+	changeKey(e.keyCode);
 
 	//call move once here to initialize it
 	if (intervalId == null) {
     	move(row, col);
     }
+}
+
+function changeKey(inputKey){
+
+	//modulo math to determine if current key is opposite of input key
+	var temp = (inputKey - 35)%4 + 37;
+
+	//if not, change the current key
+	if(temp != key){
+		key = inputKey;
+	}
 }
 
 function move(row, col){
@@ -46,15 +53,19 @@ function move(row, col){
 
 	//increment the direction
 	switch(key){
+		//left
 		case 37:
 			col--;
 			break;
+		//up
 		case 38:
 			row--;
 			break;
+		//right
 		case 39:
 			col++;
 			break;
+		//down
 		case 40:
 			row++;
 			break;
