@@ -34,7 +34,7 @@ table {
 	width: 100%;
 }
 
-td {
+.no-snake {
 	background-color: red; 
 }
 
