@@ -22,17 +22,18 @@ function createBoard(){
 }
 
 
-//global so move is only called once
-var intervalId;
+//global values. Only need to exist once
+var intervalId = null;
 var key = null;
+var pos = {row: 15, col:15};
 
-function userInput(e, row = 0, col = 0){
+function userInput(e){
 
 	changeKey(e.keyCode);
 
-	//call move once here to initialize it
+	//call gameLoop once here to initialize it. Start in center
 	if (intervalId == null) {
-    	move(row, col);
+    	gameLoop(pos);
     }
 }
 
@@ -47,40 +48,63 @@ function changeKey(inputKey){
 	}
 }
 
-function move(row, col){
-	//change the color
-	changeColor("green", row, col);
+//main game loop. Runs from game start.
+function gameLoop(pos){
+	if(checkCollision(pos)){
+		console.log("GAME OVER");
+		clearInterval(intervalId);
+	}
+	else{
+		//change the color
+		changeColor("green", pos);
 
-	//increment the direction
+		//change current position
+		move(pos);
+
+		//set it on loop indefinitely
+		if(intervalId){
+			clearInterval(intervalId);
+		}
+		intervalId = setInterval(function(){gameLoop(pos);}, 100);
+	}
+}
+
+//increment or decrement current position based on direction
+function move(pos){
 	switch(key){
 		//left
 		case 37:
-			col--;
+			pos.col--;
 			break;
 		//up
 		case 38:
-			row--;
+			pos.row--;
 			break;
 		//right
 		case 39:
-			col++;
+			pos.col++;
 			break;
 		//down
 		case 40:
-			row++;
+			pos.row++;
 			break;
 	}
-
-	console.log(row + " " + col);
-
-	//set it on loop indefinitely
-	if(intervalId){
-		clearInterval(intervalId);
-	}
-	intervalId = setInterval(function(){move(row, col);}, 100);
 }
 
-function changeColor(color, row, col){
+function checkCollision(pos){
+
+	//check if out of bounds
+	if(pos.row < 0 || pos.row >= 30 || pos.col < 0 || pos.col >= 30){
+		return true;
+	}
+	
+	//TODO: check for collision with itself
+
+	//otherwise, end the game
+	return false;
+}
+
+function changeColor(color, pos){
 	var tr = document.getElementsByTagName("tr");
-	tr[row].childNodes[col].style.backgroundColor = color;
+	tr[pos.row].childNodes[pos.col].style.backgroundColor = color;
 }
