@@ -3,6 +3,7 @@ window.onkeydown = userInput;
 
 //User defined Global values
 var speed = 50;
+var size = 30;
 
 //Interal global values. Only need to exist once
 var intervalId = null;
@@ -21,9 +22,9 @@ function createGame(){
 	main = main[0];
 
 	//add all the columns and rows to display board
-	for(var i = 0; i < 30; i++){
+	for(var i = 0; i < size; i++){
 		tr = document.createElement("tr");
-		for(var j = 0; j < 30; j++){
+		for(var j = 0; j < size; j++){
 			td = document.createElement("td");
 			td.classList.add("no-snake");
 			tr.appendChild(td);
@@ -33,7 +34,7 @@ function createGame(){
 	main.appendChild(table);
 
 	for(var i = 0; i < snake.len; i++){
-		snake.body.push({row:15-i, col:15});
+		snake.body.push({row:(Math.floor(size/2))-i-1, col:Math.floor(size/2)});
 	}
 
 	//add initial star
@@ -101,8 +102,8 @@ function gameLoop(){
 function addStar(){
 	//get random location
 	do {
-		var row = Math.floor(Math.random() * 30);
-		var col = Math.floor(Math.random() * 30);
+		var row = Math.floor(Math.random() * size);
+		var col = Math.floor(Math.random() * size);
 	} while (checkStarPos(row, col));
 
 	star.row = row;
@@ -182,7 +183,7 @@ function move(){
 
 function checkCollision(){
 	//check if out of bounds
-	if(snake.body[0].row < 0 || snake.body[0].row >= 30 || snake.body[0].col < 0 || snake.body[0].col >= 30){
+	if(snake.body[0].row < 0 || snake.body[0].row >= size || snake.body[0].col < 0 || snake.body[0].col >= size){
 		return true;
 	}
 	
