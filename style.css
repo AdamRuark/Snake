@@ -17,19 +17,36 @@ h1 {
 	font-size: 30px;
 }
 
+.sidebar {
+	display: inline-block;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px #929292;
+	padding: 15px;
+}
+
+.score {
+	
+}
+
 main {
-	padding: 20px;
+	padding: 2% 20vw 0 20vw;
+	margin: 0;
+}
+
+.main-game {
+	float: right;
 	height: 80vh;
 	width: 80vh;
 	margin: auto;
 }
 
 table {
-	position: initial;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+	border: solid 5px black;
 	height: 100%;
 	width: 100%;
 }

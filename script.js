@@ -17,9 +17,9 @@ var score = 0;
 //create html table and snake object
 function createGame(){
 	var tr, td;
-	var div = document.getElementsByTagName("div");
+	var main = document.getElementsByClassName("main-game");
 	var table = document.createElement("table");
-	div = div[0];
+	main = main[0];
 
 	//add all the columns and rows to display board
 	for(var i = 0; i < size; i++){
@@ -31,7 +31,7 @@ function createGame(){
 		}
 		table.appendChild(tr);
 	}
-	div.appendChild(table);
+	main.appendChild(table);
 
 	for(var i = 0; i < snake.len; i++){
 		snake.body.push({row:(Math.floor(size/2))-i-1, col:Math.floor(size/2)});
@@ -70,7 +70,7 @@ function changeKey(inputKey){
 	}
 }
 
-//div game loop. Runs from game start.
+//main game loop. Runs from game start.
 function gameLoop(){
 	//unlock input
 	lockInput = 0;
