@@ -1,12 +1,17 @@
 window.onload = createGame;
 window.onkeydown = userInput;
 
-//global values. Only need to exist once
+//User defined Global values
+var speed = 50;
+
+//Interal global values. Only need to exist once
 var intervalId = null;
 var key = 40;
 var snake = {body:[], len:6};
+var star = {row: null, col: null};
 var lockInput = 0;
 var gameStart = 0;
+var score = 0;
 
 //create html table and snake object
 function createGame(){
@@ -15,7 +20,7 @@ function createGame(){
 	var table = document.createElement("table");
 	main = main[0];
 
-	//add all the columns and rows to display board and pseudo table
+	//add all the columns and rows to display board
 	for(var i = 0; i < 30; i++){
 		tr = document.createElement("tr");
 		for(var j = 0; j < 30; j++){
@@ -72,21 +77,24 @@ function gameLoop(){
 	//move head, this always occurs
 	move();
 
-	//if snake runs into something, end game
+	//if snake runs into edge or itself, end game
 	if(checkCollision()){
 		console.log("GAME OVER");
 		clearInterval(intervalId);
 	}
 	else{
 
-		//update snake part locations
-		updateSnake(prevHead);
+		//update score, snake length, and star location if needed
+		updateGame();
 
-		//set it on loop indefinitely
+		//update snake part locations
+		updateSnakeLocation(prevHead);
+
+		//set game on loop indefinitely
 		if(intervalId){
 			clearInterval(intervalId);
 		}
-		intervalId = setInterval(gameLoop, 50);
+		intervalId = setInterval(gameLoop, speed);
 	}
 }
 
@@ -97,7 +105,26 @@ function addStar(){
 		var col = Math.floor(Math.random() * 30);
 	} while (checkStarPos(row, col));
 
+	star.row = row;
+	star.col = col;
 	changeClass("star", row, col); 
+}
+
+function updateGame(){
+	if(snake.body[0].row == star.row && snake.body[0].col == star.col){
+
+		score++;
+		//get the location of the tail to add the new part
+		var prevTail = JSON.parse(JSON.stringify(snake.body[snake.len-1]));
+		addStar();
+		addSnakePart(prevTail);
+	}
+}
+
+//add new body part at end of snake body
+function addSnakePart(prevTail){
+	snake.len++;
+	snake.body.push(prevTail);
 }
 
 function checkStarPos(row, col){
@@ -109,7 +136,7 @@ function checkStarPos(row, col){
 	return false;
 }
 
-function updateSnake(prevHead){
+function updateSnakeLocation(prevHead){
 	//remove tail
 	var row = snake.body[snake.len-1].row;
 	var col = snake.body[snake.len-1].col;
@@ -154,7 +181,6 @@ function move(){
 }
 
 function checkCollision(){
-
 	//check if out of bounds
 	if(snake.body[0].row < 0 || snake.body[0].row >= 30 || snake.body[0].col < 0 || snake.body[0].col >= 30){
 		return true;
