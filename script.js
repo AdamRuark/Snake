@@ -29,7 +29,6 @@ function createGame(){
 
 	for(var i = 0; i < snake.len; i++){
 		snake.body.push({row:15-i, col:15});
-		changeClass("snake", 15-i, 15);
 	}
 }
 
