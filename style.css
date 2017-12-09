@@ -37,3 +37,7 @@ table {
 td {
 	background-color: red; 
 }
+
+.snake {
+	background-color: green;
+}

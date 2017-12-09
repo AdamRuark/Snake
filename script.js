@@ -19,15 +19,13 @@ function createBoard(){
 		table.appendChild(tr);
 	}
 	main.appendChild(table);
-
-	gameLoop(pos);
 }
 
 
 //global values. Only need to exist once
 var intervalId = null;
-var key = 40;
-var pos = {row: 0, col:15};
+var key = null;
+var pos = {row: 15, col:15};
 
 function userInput(e){
 
@@ -58,7 +56,7 @@ function gameLoop(pos){
 	}
 	else{
 		//change the color
-		changeColor("green", pos);
+		changeClass("snake", pos);
 
 		//change current position
 		move(pos);
@@ -100,13 +98,18 @@ function checkCollision(pos){
 		return true;
 	}
 	
-	//TODO: check for collision with itself
+	//check for collision with itself
+	var curNode = document.getElementsByTagName("tr")[pos.row].childNodes[pos.col];
+	console.log(curNode);
+	if(curNode.classList.contains("snake")){
+		return true;
+	}
 
 	//otherwise, end the game
 	return false;
 }
 
-function changeColor(color, pos){
+function changeClass(newClass, pos){
 	var tr = document.getElementsByTagName("tr");
-	tr[pos.row].childNodes[pos.col].style.backgroundColor = color;
+	tr[pos.row].childNodes[pos.col].classList.add(newClass);
 }
