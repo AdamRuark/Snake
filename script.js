@@ -19,13 +19,15 @@ function createBoard(){
 		table.appendChild(tr);
 	}
 	main.appendChild(table);
+
+	gameLoop(pos);
 }
 
 
 //global values. Only need to exist once
 var intervalId = null;
-var key = null;
-var pos = {row: 15, col:15};
+var key = 40;
+var pos = {row: 0, col:15};
 
 function userInput(e){
 
