@@ -6,6 +6,7 @@ var intervalId = null;
 var key = null;
 var psuedoTable = [];
 var snake = {row: 15, col:15, len:6};
+var lockInput = 0;
 
 //create html table and pseduotable for snake tracking
 function createBoard(){
@@ -39,17 +40,31 @@ function userInput(e){
 }
 
 function changeKey(inputKey){
+
+	if(lockInput){
+		console.log("LOCKED");
+	}
 	//modulo math to determine if current key is opposite of input key
 	var temp = (inputKey - 35)%4 + 37;
 
-	//if not, change the current key
-	if(temp != key){
+	//if not opposite direction and input unlocked, change the current key
+	if(temp != key && lockInput == 0){
 		key = inputKey;
+
+		//lock so it can't be changed until the next cycle
+		lockInput = 1;
 	}
+
+
+
+	
 }
 
 //main game loop. Runs from game start.
 function gameLoop(){
+	//unlock input
+	lockInput = 0;
+
 	//move snake, this always occurs
 	move();
 
