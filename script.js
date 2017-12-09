@@ -17,9 +17,9 @@ var score = 0;
 //create html table and snake object
 function createGame(){
 	var tr, td;
-	var main = document.getElementsByTagName("main");
+	var div = document.getElementsByTagName("div");
 	var table = document.createElement("table");
-	main = main[0];
+	div = div[0];
 
 	//add all the columns and rows to display board
 	for(var i = 0; i < size; i++){
@@ -31,7 +31,7 @@ function createGame(){
 		}
 		table.appendChild(tr);
 	}
-	main.appendChild(table);
+	div.appendChild(table);
 
 	for(var i = 0; i < snake.len; i++){
 		snake.body.push({row:(Math.floor(size/2))-i-1, col:Math.floor(size/2)});
@@ -39,6 +39,9 @@ function createGame(){
 
 	//add initial star
 	addStar();
+
+	//set initial score
+	updateScore();
 }
 
 function userInput(e){
@@ -67,7 +70,7 @@ function changeKey(inputKey){
 	}
 }
 
-//main game loop. Runs from game start.
+//div game loop. Runs from game start.
 function gameLoop(){
 	//unlock input
 	lockInput = 0;
@@ -119,7 +122,16 @@ function updateGame(){
 		var prevTail = JSON.parse(JSON.stringify(snake.body[snake.len-1]));
 		addStar();
 		addSnakePart(prevTail);
+		updateScore();
 	}
+}
+
+function updateScore(){
+	//get score element
+	var elem = document.getElementsByClassName("score");
+	elem = elem[0];
+
+	elem.innerHTML = "Score: " + score;
 }
 
 //add new body part at end of snake body
