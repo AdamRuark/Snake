@@ -21,6 +21,9 @@ function createGame(){
 	var table = document.createElement("table");
 	main = main[0];
 
+	//initialize to null, for game restarts
+	main.innerHTML = null;
+
 	//add all the columns and rows to display board
 	for(var i = 0; i < size; i++){
 		tr = document.createElement("tr");
@@ -42,6 +45,10 @@ function createGame(){
 
 	//set initial score
 	updateScore();
+}
+
+function newGame(){
+	location.reload();
 }
 
 function userInput(e){
