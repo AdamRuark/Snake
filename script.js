@@ -4,9 +4,8 @@ window.onkeydown = userInput;
 //global values. Only need to exist once
 var intervalId = null;
 var key = null;
-var snake = {row: 15, col:15, len:6};
 var psuedoTable = [];
-
+var snake = {row: 15, col:15, len:6};
 
 //create html table and pseduotable for snake tracking
 function createBoard(){
@@ -23,7 +22,7 @@ function createBoard(){
 			td = document.createElement("td");
 			td.classList.add("no-snake");
 			tr.appendChild(td);
-			psuedoTable[i][j] = 0;
+			psuedoTable[i][j] = -1;
 		}
 		table.appendChild(tr);
 	}
@@ -31,7 +30,6 @@ function createBoard(){
 }
 
 function userInput(e){
-
 	changeKey(e.keyCode);
 
 	//call gameLoop once here to initialize it. Start in center
@@ -41,7 +39,6 @@ function userInput(e){
 }
 
 function changeKey(inputKey){
-
 	//modulo math to determine if current key is opposite of input key
 	var temp = (inputKey - 35)%4 + 37;
 
@@ -52,29 +49,49 @@ function changeKey(inputKey){
 }
 
 //main game loop. Runs from game start.
-function gameLoop(snake){
+function gameLoop(){
+	//move snake, this always occurs
+	move();
+
 	//if snake runs into something, end game
-	if(checkCollision(snake)){
+	if(checkCollision()){
 		console.log("GAME OVER");
 		clearInterval(intervalId);
 	}
 	else{
 		//change the color
-		changeClass("snake", snake);
+		changeClass("snake", snake.row, snake.col);
 
-		//change current position
-		move(snake);
+		//update display to reflect move
+		updateTable();
 
 		//set it on loop indefinitely
 		if(intervalId){
 			clearInterval(intervalId);
 		}
-		intervalId = setInterval(function(){gameLoop(snake);}, 100);
+		intervalId = setInterval(gameLoop, 50);
 	}
 }
 
+function updateTable(){
+	//decrement the rest of the body
+	for(var i = 0; i < 30; i++){
+		for(var j = 0; j < 30; j++){
+			if(psuedoTable[i][j] > 0){
+				psuedoTable[i][j]--;
+			}
+			else if(psuedoTable[i][j] == 0){
+				changeClass("no-snake", i, j);
+				psuedoTable[i][j]--;
+			}
+		}
+	}
+	//set head to max value
+	psuedoTable[snake.row][snake.col] = snake.len;
+}
+
 //increment or decrement current position based on direction
-function move(snake){
+function move(){
 	switch(key){
 		//left
 		case 37:
@@ -95,7 +112,7 @@ function move(snake){
 	}
 }
 
-function checkCollision(snake){
+function checkCollision(){
 
 	//check if out of bounds
 	if(snake.row < 0 || snake.row >= 30 || snake.col < 0 || snake.col >= 30){
@@ -112,7 +129,7 @@ function checkCollision(snake){
 	return false;
 }
 
-function changeClass(newClass, snake){
+function changeClass(newClass, row, col){
 	var tr = document.getElementsByTagName("tr");
-	tr[snake.row].childNodes[snake.col].classList.add(newClass);
+	tr[row].childNodes[col].classList = newClass;
 }
