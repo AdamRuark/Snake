@@ -110,7 +110,33 @@ function gameLoop(){
 }
 
 function gameOver(){
-	var msg = document.getElementsByClassName("game-over");
+	var elem = document.getElementsByClassName("modal-backdrop");
+	elem = elem[0];
+
+	var div = document.createElement("div");
+	var header = document.createElement("h2");
+	var msg = document.createTextNode("Game Over");
+	var btn = document.createElement("input");
+
+	btn.setAttribute("type", "button");
+	btn.value = "New Game";
+	btn.onclick = function(){newGame();};
+
+	div.classList.add("message");
+	header.appendChild(msg);
+	div.appendChild(header);
+	div.appendChild(btn);
+	elem.appendChild(div);
+
+	elem.classList.remove("hidden");
+}
+
+function test() {
+	console.log("Hello World");
+}
+
+function settings(){
+	var msg = document.getElementsByClassName("settings");
 	var modal = document.getElementsByClassName("modal-backdrop");
 	msg = msg[0];
 	modal = modal[0];

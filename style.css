@@ -36,6 +36,7 @@ input {
 	/*border: solid 1px #929292;*/
 	border: none;
 	width: 100px;
+	margin-bottom: auto;
 }
 
 input:hover {
@@ -44,16 +45,15 @@ input:hover {
 	transform: scale(1.02);
 }
 
-.game-over {
-	/*position: fixed;
-	top: 40%;
-	left: 40%;*/
+.message {
 	z-index: 1010;
 
 	text-align: center;
 	background-color: white;
 	padding: 50px;
 	border-radius: 30px;
+	width: 20vw;
+	height: 30vh;
 
 
 }
