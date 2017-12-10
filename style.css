@@ -58,6 +58,11 @@ input:hover {
 
 }
 
+.game-over-msg {
+	padding-bottom: 70px;
+	font-size: 50px;
+}
+
 .modal-backdrop {
 	position: fixed;
 	top: 0;

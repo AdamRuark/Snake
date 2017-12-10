@@ -94,7 +94,6 @@ function gameLoop(){
 		clearInterval(intervalId);
 	}
 	else{
-
 		//update score, snake length, and star location if needed
 		updateGame();
 
@@ -113,21 +112,28 @@ function gameOver(){
 	var elem = document.getElementsByClassName("modal-backdrop");
 	elem = elem[0];
 
+	//create all the modal elements
 	var div = document.createElement("div");
 	var header = document.createElement("h2");
 	var msg = document.createTextNode("Game Over");
 	var btn = document.createElement("input");
 
+	//set button values
 	btn.setAttribute("type", "button");
 	btn.value = "New Game";
 	btn.onclick = function(){newGame();};
 
+	//add classes
+	header.classList.add("game-over-msg");
 	div.classList.add("message");
+
+	//add them all to the DOM
 	header.appendChild(msg);
 	div.appendChild(header);
 	div.appendChild(btn);
 	elem.appendChild(div);
 
+	//reveal this modal now
 	elem.classList.remove("hidden");
 }
 
