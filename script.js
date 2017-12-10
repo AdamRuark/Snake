@@ -90,7 +90,7 @@ function gameLoop(){
 
 	//if snake runs into edge or itself, end game
 	if(checkCollision()){
-		console.log("GAME OVER");
+		gameOver();
 		clearInterval(intervalId);
 	}
 	else{
@@ -107,6 +107,13 @@ function gameLoop(){
 		}
 		intervalId = setInterval(gameLoop, speed);
 	}
+}
+
+function gameOver(){
+	var elem = document.getElementsByClassName("game-over");
+	elem = elem[0];
+
+	elem.classList.remove("hidden");
 }
 
 function addStar(){
