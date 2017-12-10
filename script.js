@@ -110,10 +110,13 @@ function gameLoop(){
 }
 
 function gameOver(){
-	var elem = document.getElementsByClassName("game-over");
-	elem = elem[0];
+	var msg = document.getElementsByClassName("game-over");
+	var modal = document.getElementsByClassName("modal-backdrop");
+	msg = msg[0];
+	modal = modal[0];
 
-	elem.classList.remove("hidden");
+	msg.classList.remove("hidden");
+	modal.classList.remove("hidden");
 }
 
 function addStar(){
