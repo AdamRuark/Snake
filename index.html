@@ -15,6 +15,17 @@
 			
 		</header>
 		<main>
+
+			<!-- Modals -->
+		    <div class="hidden modal-backdrop">
+				<div class="settings hidden"></div>
+				<div class="game-over hidden">
+					<p>Game Over</p>
+					<input type="button" onclick="newGame()" value="I know, I suck" />
+				</div>
+			</div>
+
+			<!-- Actual Content -->
 			<div class="sidebar">
 				<p class="score">Score</p>
 				<input type="button" onclick="newGame()" value="New Game" />
