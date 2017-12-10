@@ -53,7 +53,7 @@ function newGame(){
 
 function userInput(e){
 	//update direction
-	if(gameStart == 1){
+	if(gameStart == 1 && e.keyCode >= 37 && e.keyCode <= 40){
 		changeKey(e.keyCode);
 	}
 
@@ -112,6 +112,9 @@ function gameOver(){
 	var elem = document.getElementsByClassName("modal-backdrop");
 	elem = elem[0];
 
+	//clear any previous values
+	elem.innerHTML = null;
+
 	//create all the modal elements
 	var div = document.createElement("div");
 	var header = document.createElement("h2");
@@ -137,18 +140,54 @@ function gameOver(){
 	elem.classList.remove("hidden");
 }
 
-function test() {
-	console.log("Hello World");
+function settingsMenu(){
+	var elem = document.getElementsByClassName("modal-backdrop");
+	elem = elem[0];
+
+	//clear any previous values
+	elem.innerHTML = null;
+
+	//create all the modal elements
+	var div = document.createElement("div");
+	var header = document.createElement("h2");
+	var msg = document.createTextNode("Settings");
+	var acceptBtn = document.createElement("input");
+	var cancelBtn = document.createElement("input");
+
+	//set button values
+	acceptBtn.setAttribute("type", "button");
+	acceptBtn.value = "Apply";
+	acceptBtn.onclick = function(){updateSettings(true);};
+
+	cancelBtn.setAttribute("type", "button");
+	cancelBtn.value = "Cancel";
+	cancelBtn.onclick = function(){updateSettings(false);};
+
+	//add classes
+	header.classList.add("game-over-msg");
+	div.classList.add("message");
+
+	//add them all to the DOM
+	header.appendChild(msg);
+	div.appendChild(header);
+	div.appendChild(acceptBtn);
+	div.appendChild(cancelBtn);
+	elem.appendChild(div);
+
+	//reveal this modal now
+	elem.classList.remove("hidden");
 }
 
-function settings(){
-	var msg = document.getElementsByClassName("settings");
-	var modal = document.getElementsByClassName("modal-backdrop");
-	msg = msg[0];
-	modal = modal[0];
-
-	msg.classList.remove("hidden");
-	modal.classList.remove("hidden");
+function updateSettings(val){
+	var elem = document.getElementsByClassName("modal-backdrop");
+	elem = elem[0];
+	if(val){
+		console.log("Hello World");
+	}
+	else {
+		console.log("fuk u");
+	}
+	elem.classList.add("hidden");
 }
 
 function addStar(){
