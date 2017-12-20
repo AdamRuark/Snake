@@ -238,7 +238,7 @@ function updateSettings(){
 
 	//set new values 
 	size = fields.childNodes[0].childNodes[1].childNodes[0].value;
-	speed = fields.childNodes[1].childNodes[1].childNodes[0].value * 75;
+	speed = fields.childNodes[1].childNodes[1].childNodes[0].value * 30 + 45;
 
 	console.log(size + " " + speed);
 
