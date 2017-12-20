@@ -153,23 +153,35 @@ function settingsMenu(){
 	var msg = document.createTextNode("Settings");
 	var acceptBtn = document.createElement("input");
 	var cancelBtn = document.createElement("input");
+	var fields = document.createElement("div");
+	var sizeVal = document.createElement("input");
+	var sizeSlider = "<input type='range' name='rangeInput' min='10' max='30' onchange='updateSlider(\"size\", this.value);' value=0>";
 
-	//set button values
+	//set input values
 	acceptBtn.setAttribute("type", "button");
 	acceptBtn.value = "Apply";
-	acceptBtn.onclick = function(){updateSettings(true);};
+	acceptBtn.onclick = function(){updateSettings();};
 
 	cancelBtn.setAttribute("type", "button");
 	cancelBtn.value = "Cancel";
-	cancelBtn.onclick = function(){updateSettings(false);};
+	cancelBtn.onclick = function(){
+		elem.classList.add("hidden");
+	};
+
+	sizeVal.innerHTML = 0;
+
 
 	//add classes
 	header.classList.add("game-over-msg");
 	div.classList.add("message");
+	sizeVal.setAttribute("id", "size");
 
 	//add them all to the DOM
 	header.appendChild(msg);
 	div.appendChild(header);
+	fields.innerHTML += sizeSlider;
+	fields.appendChild(sizeVal);
+	div.appendChild(fields);
 	div.appendChild(acceptBtn);
 	div.appendChild(cancelBtn);
 	elem.appendChild(div);
@@ -178,15 +190,15 @@ function settingsMenu(){
 	elem.classList.remove("hidden");
 }
 
-function updateSettings(val){
+function updateSlider(cls, val){
+	document.getElementById(cls).value = val; 
+}
+
+function updateSettings(){
 	var elem = document.getElementsByClassName("modal-backdrop");
 	elem = elem[0];
-	if(val){
-		console.log("Hello World");
-	}
-	else {
-		console.log("fuk u");
-	}
+	
+
 	elem.classList.add("hidden");
 }
 

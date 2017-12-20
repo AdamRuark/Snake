@@ -29,7 +29,7 @@ h1 {
 	padding: 25px 35px 25px 35px;
 }
 
-input {
+input[button] {
 	padding: 10px;
 	border-radius: 3px;
 	background-color: #CBC7C7;
