@@ -29,7 +29,7 @@ h1 {
 	padding: 25px 35px 25px 35px;
 }
 
-input[button] {
+input[type=button] {
 	padding: 10px;
 	border-radius: 3px;
 	background-color: #CBC7C7;
@@ -40,7 +40,7 @@ input[button] {
 	margin-bottom: auto;
 }
 
-input:hover {
+input[type=button]:hover {
 	cursor: pointer;
 	box-shadow: 1px 1px 3px #929292;
 	transform: scale(1.02);
@@ -58,7 +58,7 @@ input:hover {
 }
 
 .game-over-msg {
-	padding-bottom: 70px;
+	padding-bottom: 20px;
 	font-size: 50px;
 }
 
@@ -88,7 +88,7 @@ main {
 	margin: auto;
 }
 
-table {
+.game-board {
 	border: solid 5px black;
 	height: 100%;
 	width: 100%;
@@ -108,4 +108,9 @@ table {
 
 .hidden {
 	display: none;
+}
+
+.settings-list {
+	text-align: left;
+	padding-left: 25%;
 }

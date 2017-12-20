@@ -20,6 +20,7 @@ function createGame(){
 	var main = document.getElementsByClassName("main-game");
 	var table = document.createElement("table");
 	main = main[0];
+	table.classList.add("game-board");
 
 	//initialize to null, for game restarts
 	main.innerHTML = null;
@@ -140,6 +141,7 @@ function gameOver(){
 	elem.classList.remove("hidden");
 }
 
+//TODO: Don't ever look at this mess again. I'm lazy
 function settingsMenu(){
 	var elem = document.getElementsByClassName("modal-backdrop");
 	elem = elem[0];
@@ -153,9 +155,15 @@ function settingsMenu(){
 	var msg = document.createTextNode("Settings");
 	var acceptBtn = document.createElement("input");
 	var cancelBtn = document.createElement("input");
-	var fields = document.createElement("div");
-	var sizeVal = document.createElement("input");
-	var sizeSlider = "<input type='range' name='rangeInput' min='10' max='30' onchange='updateSlider(\"size\", this.value);' value=0>";
+	var fields = document.createElement("table");
+	var sizeRow = document.createElement("tr");
+	var sizeVal = document.createElement("td");
+	var sizeLabel = document.createElement("td");
+	var sizeSlider = "<td><input type='range' name='rangeInput' min='10' max='30' onchange='updateSlider(\"size\", this.value);' value=0></td>";
+	var speedRow = document.createElement("tr");
+	var speedVal = document.createElement("td");
+	var speedLabel = document.createElement("td");
+	var speedSlider = "<td><input type='range' name='rangeInput' min='1' max='3' onchange='updateSlider(\"speed\", this.value);' value=0></td>";
 
 	//set input values
 	acceptBtn.setAttribute("type", "button");
@@ -168,19 +176,30 @@ function settingsMenu(){
 		elem.classList.add("hidden");
 	};
 
-	sizeVal.innerHTML = 0;
+	sizeVal.innerHTML = 10;
+	speedVal.innerHTML = 1;
+	sizeLabel.innerHTML = "Size";
+	speedLabel.innerHTML = "Speed";
 
 
 	//add classes
 	header.classList.add("game-over-msg");
 	div.classList.add("message");
 	sizeVal.setAttribute("id", "size");
+	speedVal.setAttribute("id", "speed");
+	fields.classList.add("settings-list");
 
 	//add them all to the DOM
 	header.appendChild(msg);
 	div.appendChild(header);
-	fields.innerHTML += sizeSlider;
-	fields.appendChild(sizeVal);
+	sizeRow.appendChild(sizeLabel);
+	sizeRow.innerHTML += sizeSlider;
+	sizeRow.appendChild(sizeVal);
+	speedRow.appendChild(speedLabel);
+	speedRow.innerHTML += speedSlider;
+	speedRow.appendChild(speedVal);
+	fields.appendChild(sizeRow);
+	fields.appendChild(speedRow);
 	div.appendChild(fields);
 	div.appendChild(acceptBtn);
 	div.appendChild(cancelBtn);
@@ -191,15 +210,27 @@ function settingsMenu(){
 }
 
 function updateSlider(cls, val){
-	document.getElementById(cls).value = val; 
+	document.getElementById(cls).innerHTML = val; 
 }
 
 function updateSettings(){
+	//hide modal
 	var elem = document.getElementsByClassName("modal-backdrop");
 	elem = elem[0];
-	
-
 	elem.classList.add("hidden");
+
+	//grab the fields
+	var fields = document.getElementsByClassName("settings-list");
+	fields = fields[0];
+
+	//set new values 
+	size = fields.childNodes[0].childNodes[1].childNodes[0].value;
+
+
+	speed = fields.childNodes[1].childNodes[1].childNodes[0].value * 75;
+
+	createGame();
+
 }
 
 function addStar(){
