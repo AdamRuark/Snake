@@ -6,13 +6,13 @@ var speed = 50;
 var size = 30;
 
 //Interal global values. Only need to exist once
-var intervalId = null;
-var key = 40;
-var snake = {body:[], len:6};
-var star = {row: null, col: null};
-var lockInput = 0;
-var gameStart = 0;
-var score = 0;
+var intervalId;
+var key;
+var snake;
+var star; 
+var lockInput;
+var gameStart;
+var score;
 
 //create html table and snake object
 function createGame(){
@@ -22,8 +22,15 @@ function createGame(){
 	main = main[0];
 	table.classList.add("game-board");
 
-	//initialize to null, for game restarts
+	//initialize, for game restarts
 	main.innerHTML = null;
+	intervalId = null;
+	key = 40;
+	snake = {body:[], len:5};
+	star = {row: null, col: null};
+	lockInput = 0;
+	gameStart = 0;
+	score = 0; 
 
 	//add all the columns and rows to display board
 	for(var i = 0; i < size; i++){
@@ -41,6 +48,8 @@ function createGame(){
 		snake.body.push({row:(Math.floor(size/2))-i-1, col:Math.floor(size/2)});
 	}
 
+	console.log(snake.body[0].row + " " + snake.body[0].col);
+
 	//add initial star
 	addStar();
 
@@ -49,7 +58,11 @@ function createGame(){
 }
 
 function newGame(){
-	location.reload();
+	createGame();
+	var elem = document.getElementsByClassName("modal-backdrop");
+	elem = elem[0];
+	elem.classList.add("hidden");
+
 }
 
 function userInput(e){
@@ -159,7 +172,7 @@ function settingsMenu(){
 	var sizeRow = document.createElement("tr");
 	var sizeVal = document.createElement("td");
 	var sizeLabel = document.createElement("td");
-	var sizeSlider = "<td><input type='range' name='rangeInput' min='10' max='30' onchange='updateSlider(\"size\", this.value);' value=0></td>";
+	var sizeSlider = "<td><input type='range' name='rangeInput' min='15' max='30' onchange='updateSlider(\"size\", this.value);' value=0></td>";
 	var speedRow = document.createElement("tr");
 	var speedVal = document.createElement("td");
 	var speedLabel = document.createElement("td");
@@ -225,9 +238,9 @@ function updateSettings(){
 
 	//set new values 
 	size = fields.childNodes[0].childNodes[1].childNodes[0].value;
-
-
 	speed = fields.childNodes[1].childNodes[1].childNodes[0].value * 75;
+
+	console.log(size + " " + speed);
 
 	createGame();
 
@@ -242,6 +255,8 @@ function addStar(){
 
 	star.row = row;
 	star.col = col;
+
+	// console.log("Row: " + row + ", Col: " + col);
 	changeClass("star", row, col); 
 }
 
