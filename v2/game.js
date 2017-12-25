@@ -17,8 +17,11 @@ function startGame() {
 }
 
 function updateGameArea() {
-	gameArea.clear();
 	snake.move();
+	if(snake.checkCollision()){
+		gameArea.endGame();
+	}
+	gameArea.clear();
 	board.draw();
 	snake.draw();
 }
@@ -42,7 +45,12 @@ var gameArea = {
 	clear : function() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
-	
+	endGame : function(){
+		console.log("End Game");
+		clearInterval(this.interval);
+
+		//this will have weird results when space is pressed i think, since the interval can be restarted
+	}
 }
 
 function inputHandler(snake) {
@@ -117,6 +125,16 @@ function Snake(color, x, y, size) {
 		if(this.isValidMove()) {
 			this.direction = gameArea.key;
 		}
+	}
+
+	this.checkCollision = function(){
+		//do more testing. Try to check collision before it is out of bounds	
+
+		if(this.x <= 0 && this.direction == 37) return true;
+		if(this.y <= 0 && this.direction == 38) return true;
+		if(this.x >= board.size && this.direction == 39) return true;
+		if(this.y >= board.size && this.direction == 40) return true;
+		return false;
 	}
 }
 
