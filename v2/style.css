@@ -81,10 +81,10 @@ main {
 	margin: 0;
 }
 
-canvas {
+.main-game {
 	float: right;
-	height: 80vh;
-	width: 80vh;
+	height: 700px;
+	width: 700px;
 	margin: auto;
 }
 
@@ -119,5 +119,5 @@ canvas {
 }
 
 canvas {
-	border: solid black 2px;
+	/*border: solid black 2px;*/
 }
