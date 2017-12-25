@@ -15,7 +15,7 @@ var gameArea = {
 		this.canvas.width = 500;
 		this.canvas.height = 500;
 		this.context = this.canvas.getContext("2d");
-		this.ignoreInput = false;
+		this.ignoreMove = false;
 		// this.key = 40 /*start game off moving down*/
 
 		//add to window and set up main loop
@@ -31,24 +31,24 @@ var gameArea = {
 
 function inputHandler(snake) {
 
-		//if the user presses space, pause or play the game depending on current state
-		if(gameArea.key == 32){
-			if(gameArea.interval){
-				clearInterval(gameArea.interval);
-				gameArea.interval = null;
-				gameArea.ignoreInput = true;
-			}
-			else {
-				gameArea.interval = setInterval(updateGameArea, 20);
-				gameArea.ignoreInput = false;
-			}
+	//if the user presses space, pause or play the game depending on current state
+	if(gameArea.key == 32){
+		if(gameArea.interval){
+			clearInterval(gameArea.interval);
+			gameArea.interval = null;
+			gameArea.ignoreMove = true;
 		}
-
-		//handle snake direction
-		else if(gameArea.key >= 37 && gameArea.key <= 40){
-			snake.changeDirection();
+		else {
+			gameArea.interval = setInterval(updateGameArea, 20);
+			gameArea.ignoreMove = false;
 		}
 	}
+
+	//handle snake direction
+	else if(gameArea.key >= 37 && gameArea.key <= 40){
+		snake.changeDirection();
+	}
+}
 
 
 function Snake(color, x, y) {
@@ -78,16 +78,14 @@ function Snake(color, x, y) {
 
 	this.isValidMove = function(key){
 		var temp = (key - 35)%4 + 37;
-		return temp != this.direction && gameArea.ignoreInput == false;
+		return temp != this.direction && gameArea.ignoreMove == false;
 	}
 
 	this.changeDirection = function(){
-
-		//if not a valid move, keep going in same direction
-		if(!this.isValidMove(gameArea.key)) return;
-
-		//set the current direction
-		this.direction = gameArea.key;
+		//if we can changed the direction, change it.
+		if(this.isValidMove(gameArea.key)) {
+			this.direction = gameArea.key;
+		}
 	}
 }
 
