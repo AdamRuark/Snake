@@ -117,3 +117,7 @@ main {
 	text-align: left;
 	padding-left: 25%;
 }
+
+canvas {
+	border: solid black 2px;
+}
