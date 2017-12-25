@@ -5,9 +5,15 @@ window.addEventListener('keydown', function(e){
 });
 
 function startGame() {
-	gameArea.start();
-	board = new Board(25);
-	snake = new Snake("green", 0, 0, 30);
+	
+	var size = 700;
+	var num = 25;
+
+	var width = size/num;
+
+	gameArea.start(size);
+	board = new Board(size, num, width);
+	snake = new Snake("green", 0, 0, width);
 }
 
 function updateGameArea() {
@@ -19,11 +25,11 @@ function updateGameArea() {
 
 var gameArea = {
 	canvas : document.createElement("canvas"),
-	start : function() {
+	start : function(size) {
 		//TODO: Get start input from the user and define game state from that
 
-		this.canvas.width = 700;
-		this.canvas.height = 700;
+		this.canvas.width = size;
+		this.canvas.height = size;
 		this.context = this.canvas.getContext("2d");
 		this.ignoreMove = false;
 		// this.key = 40 /*start game off moving down*/
@@ -59,10 +65,10 @@ function inputHandler(snake) {
 	}
 }
 
-function Board(num){
-	this.size = 700;
+function Board(size, num, width){
+	this.size = size;
 	this.num = num;
-	this.width = this.size/this.num;
+	this.width = width;
 
 	this.draw = function(){
 		ctx = gameArea.context;
@@ -73,7 +79,8 @@ function Board(num){
 			ctx.moveTo(0, i);
 			ctx.lineTo(this.size, i);
 		}
-		ctx.strokeStyle = "black";
+		ctx.strokeStyle = "grey";
+		ctx.lineWidth = 1;
 		ctx.stroke();
 	}
 	this.draw();
@@ -87,7 +94,7 @@ function Snake(color, x, y, size) {
 	this.draw = function(){
 		ctx = gameArea.context;
 		ctx.fillStyle = color;
-		ctx.fillRect(this.x, this.y, this.size, this.size);
+		ctx.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
 	};
 	this.draw();
 
