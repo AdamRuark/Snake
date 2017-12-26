@@ -37,6 +37,7 @@ function updateGameArea() {
 
 var gameArea = {
 	canvas : document.createElement("canvas"),
+	scoreDOM : document.getElementById("score"),
 	rate : 100,
 	running : false, 
 	width : 700,
@@ -55,6 +56,8 @@ var gameArea = {
 		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
 		main.insertBefore(this.canvas, main.childNodes[0]);
+
+		this.scoreDOM.innerHTML = "Score: " + this.score;
 		
 	},
 	start : function(){
@@ -67,12 +70,10 @@ var gameArea = {
 		console.log("End Game: " + gameArea.score);
 		clearInterval(this.interval);
 		this.running = false;
-
-		/*TODO: Cheat, since game ends when snake goes 1 out of bounds
-		add 1 to the tail to make it look like it hasn't moved*/
 	},
 	updateScore : function(){
 		this.score++;
+		this.scoreDOM.innerHTML = "Score: " + this.score;
 	}
 }
 
