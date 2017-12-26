@@ -76,6 +76,7 @@ var gameArea = {
 		this.score++;
 		this.scoreDOM.innerHTML = "Score: " + this.score;
 	}
+
 }
 
 function inputHandler(snake) {
@@ -96,16 +97,12 @@ function inputHandler(snake) {
 		}
 	}
 
+	//convert WASD keys to arrow keys
+
 	//handle snake direction
-	else if(gameArea.key >= 37 && gameArea.key <= 40 && gameArea.running){
+	else if(validMoveKey() && gameArea.running){
 		snake.changeDirection();
 		gameArea.locked = true;
-	}
-
-	//testing
-	else if(gameArea.key == 65){
-		star.shift();
-		console.log(star.x + " " + star.y);
 	}
 
 	//start the game if the user presses enter
@@ -115,6 +112,33 @@ function inputHandler(snake) {
 	}
 
 
+}
+
+function validMoveKey(){
+	switch(gameArea.key){
+		//arrow keys, don't do anything
+		case 37:
+		case 38:
+		case 39:
+		case 40:
+			break;
+		//WASD keys, convert to arrow key codes			
+		case 65:
+			gameArea.key = 37;
+			break;
+		case 87:
+			gameArea.key = 38;
+			break;
+		case 68:
+			gameArea.key = 39;
+			break;
+		case 83:
+			gameArea.key = 40;
+			break;
+		default:
+			return false;
+	}
+	return true;
 }
 
 function Board(size, num, width){
