@@ -49,6 +49,7 @@ var gameArea = {
 		this.context = this.canvas.getContext("2d");
 		this.context.globalAlpha = 1;
 		this.context.translate(0.5, 0.5);
+		this.context.imageSmoothingQuality = "high";
 		this.ignoreMove = false;
 		this.locked = false;
 		this.score = 0;
@@ -145,7 +146,7 @@ function Snake(x, y, size) {
 	this.direction = 40; /*temporary?*/
 
 	this.initBody = function(){
-		for(var i = 0; i < 36; ++i){
+		for(var i = 0; i < 6; ++i){
 			this.body.push(new Body(this.x, this.y - (i*this.size), this.size));
 		}
 		
@@ -260,13 +261,11 @@ function Star(cellSize, cellCount){
 			this.y = 0;
 			this.x = 0;
 		}
-		console.log("shifted");
 	};
 
 	this.draw = function(){
-		ctx = gameArea.context;
-		ctx.fillStyle = "yellow";
-		ctx.fillRect(this.x+1, this.y+1, cellSize-2, cellSize-2);
+		image = document.getElementById("apple");
+		gameArea.context.drawImage(image, this.x+1, this.y+1, cellSize-2, cellSize-2);
 	};
 	this.draw();
 
