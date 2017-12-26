@@ -101,11 +101,19 @@ function inputHandler(snake) {
 		gameArea.locked = true;
 	}
 
+	//testing
+	else if(gameArea.key == 65){
+		star.shift();
+		console.log(star.x + " " + star.y);
+	}
+
 	//start the game if the user presses enter
 	else if(gameArea.key == 13 && !gameArea.running){
 		gameArea.running = true;
 		gameArea.start();
 	}
+
+
 }
 
 function Board(size, num, width){
@@ -137,7 +145,7 @@ function Snake(x, y, size) {
 	this.direction = 40; /*temporary?*/
 
 	this.initBody = function(){
-		for(var i = 0; i < 6; ++i){
+		for(var i = 0; i < 36; ++i){
 			this.body.push(new Body(this.x, this.y - (i*this.size), this.size));
 		}
 		
@@ -211,7 +219,7 @@ function Body(x, y, size){
 	};
 }
 
-function Star(size, cellCount){
+function Star(cellSize, cellCount){
 	this.validStarPos = function(){
 		//check to see if star appears in/on snake
 		for(var i = 0; i < snake.body.length; ++i){
@@ -223,18 +231,41 @@ function Star(size, cellCount){
 	};
 
 	this.move = function(){
-		//get random location until star is in valid position
-		do{
-			this.x = size*Math.floor(Math.random()*cellCount);
-			this.y = size*Math.floor(Math.random()*cellCount);
-		} while(!this.validStarPos());		
+		//get initial rand location
+		this.x = cellSize*Math.floor(Math.random()*cellCount);
+		this.y = cellSize*Math.floor(Math.random()*cellCount);
+
+		//shift the star until in a valid position;
+		while(!this.validStarPos()){
+			this.shift();
+		}
+
 	};
 	this.move();
+
+	this.shift = function(){
+		var boardSize = cellSize * cellCount;
+
+		//move to the right one cell
+		this.x += cellSize;
+
+		//if end of the row, move down one row
+		if(this.x >= boardSize) {
+			this.x = 0;
+			this.y += cellSize;
+		}
+
+		//if we reach the end of the board, start back at the top left
+		if(this.y >= boardSize){
+			this.y = 0;
+			this.x = 0;
+		}
+	};
 
 	this.draw = function(){
 		ctx = gameArea.context;
 		ctx.fillStyle = "yellow";
-		ctx.fillRect(this.x+1, this.y+1, size-2, size-2);
+		ctx.fillRect(this.x+1, this.y+1, cellSize-2, cellSize-2);
 	};
 	this.draw();
 
