@@ -14,6 +14,7 @@ function startGame() {
 	gameArea.create();
 	board = new Board(gameArea.width, cellCount, cellWidth);
 	snake = new Snake(cellWidth*Math.floor(cellCount/2), 0, cellWidth);
+	star = new Star(cellWidth, cellCount);
 }
 
 function updateGameArea() {
@@ -176,6 +177,39 @@ function Body(x, y, size){
 	};
 }
 
-function Star(){
+function Star(size, cellCount){
+	this.size = size;
+	
 
+	this.validStarPos = function(){
+		//check to see if star appears in/on snake
+		for(var i = 0; i < snake.body.length; ++i){
+			if(snake.body[i].x == this.x || snake.body[i].y == this.y){
+				return false;
+			}
+		}
+		return true;
+	};
+
+	this.create = function(){
+
+		//get random location until star is in valid position
+		do{
+			this.x = size*Math.floor(Math.random()*cellCount);
+			this.y = size*Math.floor(Math.random()*cellCount);
+		} while(!this.validStarPos());
+
+		console.log(this.x + " " + this.y);
+		
+	};
+	this.create();
+
+	this.draw = function(){
+		ctx = gameArea.context;
+		ctx.fillStyle = "yellow";
+		ctx.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
+	};
+	this.draw();
+
+	
 }
