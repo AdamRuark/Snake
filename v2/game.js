@@ -6,19 +6,19 @@ window.addEventListener('keydown', function(e){
 
 function startGame() {
 	
-	var boardWidth = 700;
+	gameArea.width = 700;
 	var cellCount = 25;
 
-	var cellWidth = boardWidth/cellCount;
+	var cellWidth = gameArea.width/cellCount;
 
-	gameArea.start(boardWidth);
-	board = new Board(boardWidth, cellCount, cellWidth);
+	gameArea.create();
+	board = new Board(gameArea.width, cellCount, cellWidth);
 	snake = new Snake("green", cellWidth*(5), 0, cellWidth);
 }
 
 function updateGameArea() {
 	snake.move();
-	if(snake.predictMove()){
+	if(snake.checkCollision()){
 		gameArea.end();
 	}
 	gameArea.clear();
@@ -29,18 +29,26 @@ function updateGameArea() {
 
 var gameArea = {
 	canvas : document.createElement("canvas"),
-	rate : 100,
-	start : function(size) {
+	rate : 500,
+	running : false, 
+	width : 700,
+	create : function() {
 		//TODO: Get start input from the user and define game state from that
 
-		this.canvas.width = size;
-		this.canvas.height = size;
+		this.canvas.width = this.width+1;
+		this.canvas.height = this.width+1;
 		this.context = this.canvas.getContext("2d");
+		this.context.globalAlpha = 1;
+		this.context.translate(0.5, 0.5);
+		// this.context.lineWidth = 2;
 		this.ignoreMove = false;
 
-		//add to window and set up main loop
+		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
 		main.insertBefore(this.canvas, main.childNodes[0]);
+		
+	},
+	start : function(){
 		this.interval = setInterval(updateGameArea, this.rate);
 	},
 	clear : function() {
@@ -49,14 +57,16 @@ var gameArea = {
 	end : function(){
 		console.log("End Game");
 		clearInterval(this.interval);
+		this.running = false;
 
-		//this will have weird results when space is pressed I think, since the interval can be restarted
+		/*TODO: Cheat, since game ends when snake goes 1 out of bounds
+		add 1 to the tail to make it look like it hasn't moved*/
 	}
 }
 
 function inputHandler(snake) {
-	//if the user presses space, pause or play the game depending on current state
-	if(gameArea.key == 32){
+	//if the user presses space and game is running, pause or play the game depending on current state
+	if(gameArea.key == 32 && gameArea.running){
 		if(gameArea.interval){
 			clearInterval(gameArea.interval);
 			gameArea.interval = null;
@@ -69,8 +79,13 @@ function inputHandler(snake) {
 	}
 
 	//handle snake direction
-	else if(gameArea.key >= 37 && gameArea.key <= 40){
+	else if(gameArea.key >= 37 && gameArea.key <= 40 && gameArea.running){
 		snake.changeDirection();
+	}
+
+	else if(gameArea.key == 13 && !gameArea.running){
+		gameArea.running = true;
+		gameArea.start();
 	}
 }
 
@@ -88,10 +103,14 @@ function Board(size, num, width){
 			ctx.moveTo(0, i);
 			ctx.lineTo(this.size, i);
 		}
-		ctx.strokeStyle = "grey";
+		ctx.strokeStyle = "#b8b8b8";
 		ctx.lineWidth = 1;
 		ctx.stroke();
 	}
+
+	/*on page load the lines are fainter than usual. Drawing it twice darkens it.
+	Weird, and I don't want to debug it right now*/
+	// this.draw();
 	this.draw();
 }
 
@@ -120,8 +139,6 @@ function Snake(color, x, y, size) {
 			this.body[i].draw(newLocation.x, newLocation.y);
 			newLocation = Object.assign({}, oldLocation);
 		}
-		// this.body[this.body.length-1].draw(newLocation.x, newLocation.y);
-
 	};
 
 	this.move = function(){
@@ -149,23 +166,6 @@ function Snake(color, x, y, size) {
 
 		//TODO: Check collision with itself
 		return this.x < 0 || this.y <  0 || this.x >= board.size || this.y >= board.size;
-	};
-
-	this.predictMove = function(){
-		//store values to replace later
-		var tempX = this.x;
-		var tempY = this.y;
-
-		//temporarily move (future move) to check collision in next turn
-		this.move();
-		var val = this.checkCollision();
-
-		//reset values
-		this.x = tempX;
-		this.y = tempY;
-
-		//return collision result
-		return val;
 	};
 }
 
