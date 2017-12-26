@@ -13,7 +13,7 @@ function startGame() {
 
 	gameArea.create();
 	board = new Board(gameArea.width, cellCount, cellWidth);
-	snake = new Snake("green", cellWidth*Math.floor(cellCount/2), 0, cellWidth);
+	snake = new Snake(cellWidth*Math.floor(cellCount/2), 0, cellWidth);
 }
 
 function updateGameArea() {
@@ -108,7 +108,7 @@ function Board(size, num, width){
 	this.draw();
 }
 
-function Snake(color, x, y, size) {
+function Snake(x, y, size) {
 	this.size = size;
 	this.x = x;
 	this.y = y;
@@ -117,7 +117,7 @@ function Snake(color, x, y, size) {
 
 	this.initBody = function(){
 		for(var i = 0; i < 6; ++i){
-			this.body.push(new Body(color, this.x, this.y - (i*this.size), this.size));
+			this.body.push(new Body(this.x, this.y - (i*this.size), this.size));
 		}
 		
 	}
@@ -162,7 +162,7 @@ function Snake(color, x, y, size) {
 	};
 }
 
-function Body(color, x, y, size){
+function Body(x, y, size){
 	this.size = size;
 	this.x = x;
 	this.y = y;
@@ -171,7 +171,11 @@ function Body(color, x, y, size){
 		this.x = newX;
 		this.y = newY;
 		ctx = gameArea.context;
-		ctx.fillStyle = color;
+		ctx.fillStyle = "green";
 		ctx.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
 	};
+}
+
+function Star(){
+
 }
