@@ -223,7 +223,7 @@ function Star(cellSize, cellCount){
 	this.validStarPos = function(){
 		//check to see if star appears in/on snake
 		for(var i = 0; i < snake.body.length; ++i){
-			if(snake.body[i].x == this.x || snake.body[i].y == this.y){
+			if(snake.body[i].x == this.x && snake.body[i].y == this.y){
 				return false;
 			}
 		}
@@ -260,6 +260,7 @@ function Star(cellSize, cellCount){
 			this.y = 0;
 			this.x = 0;
 		}
+		console.log("shifted");
 	};
 
 	this.draw = function(){
