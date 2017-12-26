@@ -18,7 +18,7 @@ function startGame() {
 
 function updateGameArea() {
 	snake.move();
-	if(snake.checkCollision()){
+	if(snake.predictMove()){
 		gameArea.endGame();
 	}
 	gameArea.clear();
@@ -128,13 +128,28 @@ function Snake(color, x, y, size) {
 	}
 
 	this.checkCollision = function(){
-		//do more testing. Try to check collision before it is out of bounds	
 
-		if(this.x <= 0 && this.direction == 37) return true;
-		if(this.y <= 0 && this.direction == 38) return true;
-		if(this.x >= board.size && this.direction == 39) return true;
-		if(this.y >= board.size && this.direction == 40) return true;
-		return false;
+		//TODO: Check collision with itself
+
+		return this.x < 0 || this.y <  0 || this.x >= board.size || this.y >= board.size;
+	}
+
+	this.predictMove = function(){
+
+		//store values to replace later
+		var tempX = this.x;
+		var tempY = this.y;
+
+		//temporarily move (future move) to check collision in next turn
+		this.move();
+		var val = this.checkCollision();
+
+		//reset values
+		this.x = tempX;
+		this.y = tempY;
+
+		//return collision result
+		return val;
 	}
 }
 
