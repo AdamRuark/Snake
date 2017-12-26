@@ -5,7 +5,6 @@ window.addEventListener('keydown', function(e){
 });
 
 function startGame() {
-	
 	gameArea.width = 700;
 	var cellCount = 25;
 
@@ -18,13 +17,23 @@ function startGame() {
 }
 
 function updateGameArea() {
+	//update the snake status
 	snake.move();
 	if(snake.checkCollision()){
 		gameArea.end();
 	}
+	if(snake.onStar()){
+		snake.pushBodyPart();
+		// gameArea.updateScore();
+		star.move();
+	}
+
+	//redraw the game
 	gameArea.clear();
 	board.draw();
+	star.draw();
 	snake.draw();
+	gameArea.locked = false;
 }
 
 var gameArea = {
@@ -41,6 +50,7 @@ var gameArea = {
 		this.context.globalAlpha = 1;
 		this.context.translate(0.5, 0.5);
 		this.ignoreMove = false;
+		this.locked = false;
 
 		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
@@ -64,6 +74,10 @@ var gameArea = {
 }
 
 function inputHandler(snake) {
+	
+	//this prevents user from entering multiple directions per step
+	if(gameArea.locked) return;
+
 	//if the user presses space and game is running, pause or play the game depending on current state
 	if(gameArea.key == 32 && gameArea.running){
 		if(gameArea.interval){
@@ -80,6 +94,7 @@ function inputHandler(snake) {
 	//handle snake direction
 	else if(gameArea.key >= 37 && gameArea.key <= 40 && gameArea.running){
 		snake.changeDirection();
+		gameArea.locked = true;
 	}
 
 	else if(gameArea.key == 13 && !gameArea.running){
@@ -150,17 +165,31 @@ function Snake(x, y, size) {
 	};
 
 	this.changeDirection = function(){
-		//if we new direction isn't the opposite direction, change it.
+		//if thee new direction isn't the opposite direction, change it.
 		if(this.isValidMove()) {
 			this.direction = gameArea.key;
 		}
 	};
 
 	this.checkCollision = function(){
+		for(var i = 1; i < this.body.length; ++i){
+			if(this.x == this.body[i].x && this.y == this.body[i].y){
+				return true;
+			}
+		}
 
 		//TODO: Check collision with itself
 		return this.x < 0 || this.y <  0 || this.x >= board.size || this.y >= board.size;
 	};
+
+	this.onStar = function(){
+		return this.x == star.x && this.y == star.y;
+	};
+
+	this.pushBodyPart = function(){
+		var tail = this.body[this.body.length-1];
+		this.body.push(new Body(tail.x, tail.y, this.size));
+	}
 }
 
 function Body(x, y, size){
@@ -178,9 +207,6 @@ function Body(x, y, size){
 }
 
 function Star(size, cellCount){
-	this.size = size;
-	
-
 	this.validStarPos = function(){
 		//check to see if star appears in/on snake
 		for(var i = 0; i < snake.body.length; ++i){
@@ -191,23 +217,19 @@ function Star(size, cellCount){
 		return true;
 	};
 
-	this.create = function(){
-
+	this.move = function(){
 		//get random location until star is in valid position
 		do{
 			this.x = size*Math.floor(Math.random()*cellCount);
 			this.y = size*Math.floor(Math.random()*cellCount);
-		} while(!this.validStarPos());
-
-		console.log(this.x + " " + this.y);
-		
+		} while(!this.validStarPos());		
 	};
-	this.create();
+	this.move();
 
 	this.draw = function(){
 		ctx = gameArea.context;
 		ctx.fillStyle = "yellow";
-		ctx.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
+		ctx.fillRect(this.x+1, this.y+1, size-2, size-2);
 	};
 	this.draw();
 
