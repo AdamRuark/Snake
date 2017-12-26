@@ -13,7 +13,7 @@ function startGame() {
 
 	gameArea.create();
 	board = new Board(gameArea.width, cellCount, cellWidth);
-	snake = new Snake("green", cellWidth*(5), 0, cellWidth);
+	snake = new Snake("green", cellWidth*Math.floor(cellCount/2), 0, cellWidth);
 }
 
 function updateGameArea() {
@@ -24,12 +24,11 @@ function updateGameArea() {
 	gameArea.clear();
 	board.draw();
 	snake.draw();
-
 }
 
 var gameArea = {
 	canvas : document.createElement("canvas"),
-	rate : 500,
+	rate : 100,
 	running : false, 
 	width : 700,
 	create : function() {
@@ -40,7 +39,6 @@ var gameArea = {
 		this.context = this.canvas.getContext("2d");
 		this.context.globalAlpha = 1;
 		this.context.translate(0.5, 0.5);
-		// this.context.lineWidth = 2;
 		this.ignoreMove = false;
 
 		//add to main window
@@ -107,10 +105,6 @@ function Board(size, num, width){
 		ctx.lineWidth = 1;
 		ctx.stroke();
 	}
-
-	/*on page load the lines are fainter than usual. Drawing it twice darkens it.
-	Weird, and I don't want to debug it right now*/
-	// this.draw();
 	this.draw();
 }
 
@@ -124,7 +118,6 @@ function Snake(color, x, y, size) {
 	this.initBody = function(){
 		for(var i = 0; i < 6; ++i){
 			this.body.push(new Body(color, this.x, this.y - (i*this.size), this.size));
-			console.log(this.body[i]);
 		}
 		
 	}
