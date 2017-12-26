@@ -7,7 +7,6 @@ window.addEventListener('keydown', function(e){
 function startGame() {
 	gameArea.width = 700;
 	var cellCount = 25;
-
 	var cellWidth = gameArea.width/cellCount;
 
 	gameArea.create();
@@ -24,7 +23,7 @@ function updateGameArea() {
 	}
 	if(snake.onStar()){
 		snake.pushBodyPart();
-		// gameArea.updateScore();
+		gameArea.updateScore();
 		star.move();
 	}
 
@@ -51,6 +50,7 @@ var gameArea = {
 		this.context.translate(0.5, 0.5);
 		this.ignoreMove = false;
 		this.locked = false;
+		this.score = 0;
 
 		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
@@ -64,12 +64,15 @@ var gameArea = {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 	end : function(){
-		console.log("End Game");
+		console.log("End Game: " + gameArea.score);
 		clearInterval(this.interval);
 		this.running = false;
 
 		/*TODO: Cheat, since game ends when snake goes 1 out of bounds
 		add 1 to the tail to make it look like it hasn't moved*/
+	},
+	updateScore : function(){
+		this.score++;
 	}
 }
 
@@ -79,7 +82,7 @@ function inputHandler(snake) {
 	if(gameArea.locked) return;
 
 	//if the user presses space and game is running, pause or play the game depending on current state
-	if(gameArea.key == 32 && gameArea.running){
+	else if(gameArea.key == 32 && gameArea.running){
 		if(gameArea.interval){
 			clearInterval(gameArea.interval);
 			gameArea.interval = null;
@@ -97,6 +100,7 @@ function inputHandler(snake) {
 		gameArea.locked = true;
 	}
 
+	//start the game if the user presses enter
 	else if(gameArea.key == 13 && !gameArea.running){
 		gameArea.running = true;
 		gameArea.start();
