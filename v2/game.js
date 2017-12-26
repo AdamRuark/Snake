@@ -6,28 +6,30 @@ window.addEventListener('keydown', function(e){
 
 function startGame() {
 	
-	var size = 700;
-	var num = 25;
+	var boardWidth = 700;
+	var cellCount = 25;
 
-	var width = size/num;
+	var cellWidth = boardWidth/cellCount;
 
-	gameArea.start(size);
-	board = new Board(size, num, width);
-	snake = new Snake("green", 0, 0, width);
+	gameArea.start(boardWidth);
+	board = new Board(boardWidth, cellCount, cellWidth);
+	snake = new Snake("green", cellWidth*(5), 0, cellWidth);
 }
 
 function updateGameArea() {
 	snake.move();
 	if(snake.predictMove()){
-		gameArea.endGame();
+		gameArea.end();
 	}
 	gameArea.clear();
 	board.draw();
 	snake.draw();
+
 }
 
 var gameArea = {
 	canvas : document.createElement("canvas"),
+	rate : 100,
 	start : function(size) {
 		//TODO: Get start input from the user and define game state from that
 
@@ -35,21 +37,20 @@ var gameArea = {
 		this.canvas.height = size;
 		this.context = this.canvas.getContext("2d");
 		this.ignoreMove = false;
-		// this.key = 40 /*start game off moving down*/
 
 		//add to window and set up main loop
 		var main = document.getElementsByClassName("main-game")[0];
 		main.insertBefore(this.canvas, main.childNodes[0]);
-		this.interval = setInterval(updateGameArea, 100);
+		this.interval = setInterval(updateGameArea, this.rate);
 	},
 	clear : function() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
-	endGame : function(){
+	end : function(){
 		console.log("End Game");
 		clearInterval(this.interval);
 
-		//this will have weird results when space is pressed i think, since the interval can be restarted
+		//this will have weird results when space is pressed I think, since the interval can be restarted
 	}
 }
 
@@ -62,7 +63,7 @@ function inputHandler(snake) {
 			gameArea.ignoreMove = true;
 		}
 		else {
-			gameArea.interval = setInterval(updateGameArea, 100);
+			gameArea.interval = setInterval(updateGameArea, gameArea.rate);
 			gameArea.ignoreMove = false;
 		}
 	}
@@ -98,13 +99,30 @@ function Snake(color, x, y, size) {
 	this.size = size;
 	this.x = x;
 	this.y = y;
+	this.body = [];
+	this.direction = 40; /*temporary?*/
+
+	this.initBody = function(){
+		for(var i = 0; i < 6; ++i){
+			this.body.push(new Body(color, this.x, this.y - (i*this.size), this.size));
+			console.log(this.body[i]);
+		}
+		
+	}
+	this.initBody();
 
 	this.draw = function(){
-		ctx = gameArea.context;
-		ctx.fillStyle = color;
-		ctx.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
+		var newLocation = Object.assign({}, this);
+		var oldLocation;
+
+		for(var i = 0; i < this.body.length; ++i){
+			oldLocation = Object.assign({}, this.body[i]);
+			this.body[i].draw(newLocation.x, newLocation.y);
+			newLocation = Object.assign({}, oldLocation);
+		}
+		// this.body[this.body.length-1].draw(newLocation.x, newLocation.y);
+
 	};
-	this.draw();
 
 	this.move = function(){
 		switch(this.direction){
@@ -118,24 +136,22 @@ function Snake(color, x, y, size) {
 	this.isValidMove = function(){
 		var temp = (gameArea.key - 35)%4 + 37;
 		return temp != this.direction && gameArea.ignoreMove == false;
-	}
+	};
 
 	this.changeDirection = function(){
-		//if we can changed the direction, change it.
+		//if we new direction isn't the opposite direction, change it.
 		if(this.isValidMove()) {
 			this.direction = gameArea.key;
 		}
-	}
+	};
 
 	this.checkCollision = function(){
 
 		//TODO: Check collision with itself
-
 		return this.x < 0 || this.y <  0 || this.x >= board.size || this.y >= board.size;
-	}
+	};
 
 	this.predictMove = function(){
-
 		//store values to replace later
 		var tempX = this.x;
 		var tempY = this.y;
@@ -150,6 +166,19 @@ function Snake(color, x, y, size) {
 
 		//return collision result
 		return val;
-	}
+	};
 }
 
+function Body(color, x, y, size){
+	this.size = size;
+	this.x = x;
+	this.y = y;
+
+	this.draw = function(newX, newY){
+		this.x = newX;
+		this.y = newY;
+		ctx = gameArea.context;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
+	};
+}
