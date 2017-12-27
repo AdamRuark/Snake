@@ -130,8 +130,6 @@ var modal = {
 }
 
 function inputHandler() {
-	//lock keyboard input until told otherwise
-
 	//if the user presses space and game is running, pause or play the game depending on current state
 	if(gameArea.key == 32 && gameArea.running){
 		if(gameArea.interval){
@@ -288,7 +286,7 @@ function Body(x, y, size){
 	this.draw = function(newX, newY){
 		this.x = newX;
 		this.y = newY;
-		ctx.fillStyle = "red";
+		gameArea.context.fillStyle = "#d84a40";
 		gameArea.context.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
 	};
 }
