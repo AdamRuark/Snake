@@ -46,7 +46,7 @@ input[type=button]:hover {
 	transform: scale(1.02);
 }
 
-.message-modal {
+.modal {
 	z-index: 1010;
 
 	text-align: center;
@@ -58,8 +58,10 @@ input[type=button]:hover {
 }
 
 .modal-header {
-	padding-bottom: 20px;
+	padding-top: 20px;
+	padding-bottom: 50px;
 	font-size: 50px;
+	margin: 0;
 }
 
 .modal-backdrop {
@@ -88,13 +90,6 @@ main {
 	margin: auto;
 }
 
-.game-board {
-	border: solid 1px grey;
-	box-shadow: 0px 0px 5px #929292;
-	height: 100%;
-	width: 100%;
-}
-
 .hidden {
 	display: none;
 }
@@ -105,7 +100,21 @@ main {
 }
 
 canvas {
-	/*border: solid grey 1px;*/
 	box-shadow: 0px 0px 5px #929292;
 	background-color: white;
+}
+
+table {
+	margin: auto;
+	padding-bottom: 30px;
+}
+.row-label {
+	text-align: right;
+	padding-right: 15px;
+}
+
+#sizeVal, #speedVal {
+	text-align: left;
+	padding-left: 15px;
+	width: 60px;
 }

@@ -1,4 +1,4 @@
-window.onload = function(){startGame(20, 300)};
+window.onload = function(){startGame(20, 200)};
 window.addEventListener('keydown', function(e){
 	gameArea.key = e.keyCode;
 	inputHandler(snake);
@@ -112,13 +112,13 @@ var modal = {
 		this.settings.classList.add("hidden");
 	},
 	updateSlider: function(num){
-		//update size display
+		var types = ["Slow", "Medium", "Fast"];
 		if(!num){
-			this.sizeVal.innerHTML = this.sizeSlider.value;
+			var val = this.sizeSlider.value;
+			this.sizeVal.innerHTML = val + " x " + val;
 		}
-		//update speed display
-		else{
-			this.speedVal.innerHTML = this.speedSlider.value;
+		else {
+			this.speedVal.innerHTML = types[this.speedSlider.value-1];
 		}
 	}
 }
