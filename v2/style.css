@@ -46,7 +46,7 @@ input[type=button]:hover {
 	transform: scale(1.02);
 }
 
-.message {
+.message-modal {
 	z-index: 1010;
 
 	text-align: center;
@@ -57,7 +57,7 @@ input[type=button]:hover {
 	height: 30vh;
 }
 
-.game-over-msg {
+.modal-header {
 	padding-bottom: 20px;
 	font-size: 50px;
 }

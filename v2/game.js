@@ -5,6 +5,11 @@ window.addEventListener('keydown', function(e){
 });
 
 function startGame() {
+
+	//remove any modals from view
+	var elem = document.getElementsByClassName("modal-backdrop")[0];
+	elem.classList.add("hidden");
+
 	gameArea.width = 700;
 	var cellCount = 25;
 	var cellWidth = gameArea.width/cellCount;
@@ -52,6 +57,7 @@ var gameArea = {
 		this.context.imageSmoothingQuality = "high";
 		this.ignoreMove = false;
 		this.locked = false;
+		this.running = false;
 		this.score = 0;
 
 		//add to main window
@@ -68,7 +74,7 @@ var gameArea = {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 	end : function(){
-		console.log("End Game: " + gameArea.score);
+		gameOver();
 		clearInterval(this.interval);
 		this.running = false;
 	},
@@ -76,11 +82,18 @@ var gameArea = {
 		this.score++;
 		this.scoreDOM.innerHTML = "Score: " + this.score;
 	}
+}
+
+function gameOver(){
+	//display backdrop
+	document.getElementsByClassName("modal-backdrop")[0].classList.remove("hidden");
+
+	//display modal
+	document.getElementById("game-over").classList.remove("hidden");
 
 }
 
 function inputHandler(snake) {
-	
 	//this prevents user from entering multiple directions per step
 	if(gameArea.locked) return;
 
@@ -97,8 +110,6 @@ function inputHandler(snake) {
 		}
 	}
 
-	//convert WASD keys to arrow keys
-
 	//handle snake direction
 	else if(validMoveKey() && gameArea.running){
 		snake.changeDirection();
@@ -111,7 +122,6 @@ function inputHandler(snake) {
 		gameArea.start();
 	}
 
-
 }
 
 function validMoveKey(){
@@ -122,6 +132,7 @@ function validMoveKey(){
 		case 39:
 		case 40:
 			break;
+
 		//WASD keys, convert to arrow key codes			
 		case 65:
 			gameArea.key = 37;
