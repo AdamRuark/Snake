@@ -23,14 +23,14 @@
 			</div>
 
 			<!-- Modal -->
-		    <div class="modal-backdrop hidden">
+		    <div class="modal-backdrop">
 		    	<div class="modal hidden" id="game-over">
 		    		<h2 class="modal-header">
 		    			Game Over
 		    		</h2>
 		    		<input type="button" name="New Game" value="New Game" onclick=modal.newGame()>
 		    	</div>
-		    	<div class ="modal hidden" id="settings">
+		    	<div class ="modal" id="settings">
 		    		<h2 class="modal-header">
 		    			Settings
 		    		</h2>
@@ -57,6 +57,21 @@
 			<!-- Actual Content -->
 			<div class="sidebar">
 				<p id = "score" class="score">Score</p>
+				<table class="controls">
+					<th>Controls</th>
+					<tr>
+						<td>Pause:</td>
+						<td>Space</td>
+					</tr>
+					<tr>
+						<td>Move:</td>
+						<td>WASD/Arrow Keys</td>
+					</tr>
+					<tr>
+						<td>Start:</td>
+						<td>Enter</td>
+					</tr>
+				</table>
 				<input type="button" onclick=modal.openSettings() value="Settings" />
 			</div>
 			<div class="main-game">		

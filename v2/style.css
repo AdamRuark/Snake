@@ -118,3 +118,11 @@ table {
 	padding-left: 15px;
 	width: 60px;
 }
+
+.controls {
+	display: block;
+	text-align: left;
+	font-size: 14px;
+	font-weight: normal;
+	padding-left: 20px;
+}
