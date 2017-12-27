@@ -5,11 +5,6 @@ window.addEventListener('keydown', function(e){
 });
 
 function startGame() {
-
-	//remove any modals from view
-	var elem = document.getElementsByClassName("modal-backdrop")[0];
-	elem.classList.add("hidden");
-
 	gameArea.width = 700;
 	var cellCount = 25;
 	var cellWidth = gameArea.width/cellCount;
@@ -74,7 +69,7 @@ var gameArea = {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 	end : function(){
-		gameOver();
+		modal.gameOver();
 		clearInterval(this.interval);
 		this.running = false;
 	},
@@ -84,13 +79,18 @@ var gameArea = {
 	}
 }
 
-function gameOver(){
-	//display backdrop
-	document.getElementsByClassName("modal-backdrop")[0].classList.remove("hidden");
-
-	//display modal
-	document.getElementById("game-over").classList.remove("hidden");
-
+var modal = {
+	object : document.getElementsByClassName("modal-backdrop")[0],
+	endContents : document.getElementById("game-over"),
+	gameOver : function(){
+		this.object.classList.remove("hidden");
+		this.endContents.classList.remove("hidden");
+	},
+	newGame : function(){
+		this.object.classList.add("hidden");
+		this.endContents.classList.add("hidden");
+		startGame();
+	}
 }
 
 function inputHandler(snake) {
