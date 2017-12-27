@@ -2,6 +2,7 @@ window.onload = function(){startGame(20, 200)};
 window.addEventListener('keydown', function(e){
 	gameArea.key = e.keyCode;
 	inputHandler(snake);
+
 });
 
 function startGame(cellCount, speed) {
@@ -128,34 +129,37 @@ var modal = {
 	}
 }
 
-function inputHandler(snake) {
+function inputHandler() {
 	//lock keyboard input until told otherwise
-	if(!gameArea.locked){
-		//if the user presses space and game is running, pause or play the game depending on current state
-		if(gameArea.key == 32 && gameArea.running){
-			if(gameArea.interval){
-				clearInterval(gameArea.interval);
-				gameArea.interval = null;
-				gameArea.ignoreMove = true;
-			}
-			else {
-				gameArea.interval = setInterval(updateGameArea, gameArea.rate);
-				gameArea.ignoreMove = false;
-			}
-		}
 
-		//handle snake direction
-		else if(validMoveKey() && gameArea.running){
-			snake.changeDirection();
-			gameArea.locked = true;
+	//if the user presses space and game is running, pause or play the game depending on current state
+	if(gameArea.key == 32 && gameArea.running){
+		if(gameArea.interval){
+			clearInterval(gameArea.interval);
+			gameArea.interval = null;
+			gameArea.ignoreMove = true;
 		}
+		else {
+			gameArea.interval = setInterval(updateGameArea, gameArea.rate);
+			gameArea.ignoreMove = false;
+		}
+	}
 
-		//start the game if the user presses enter
-		else if(gameArea.key == 13 && !gameArea.running){
-			console.log("here");
-			gameArea.running = true;
-			gameArea.start();
-		}
+	//if game input locked, don't parse movement or game start commands
+	else if(gameArea.locked){
+		return;
+	}
+
+	//handle snake direction
+	else if(validMoveKey() && gameArea.running){
+		snake.changeDirection();
+		gameArea.locked = true;
+	}
+
+	//start the game if the user presses enter
+	else if(gameArea.key == 13 && !gameArea.running){
+		gameArea.running = true;
+		gameArea.start();
 	}
 }
 
@@ -284,9 +288,8 @@ function Body(x, y, size){
 	this.draw = function(newX, newY){
 		this.x = newX;
 		this.y = newY;
-		ctx = gameArea.context;
-		ctx.fillStyle = "green";
-		ctx.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
+		ctx.fillStyle = "red";
+		gameArea.context.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
 	};
 }
 
@@ -334,8 +337,8 @@ function Star(cellSize, cellCount){
 	};
 
 	this.draw = function(){
-		image = document.getElementById("apple");
-		gameArea.context.drawImage(image, this.x+1, this.y+1, cellSize-2, cellSize-2);
+		image = document.getElementById("star");
+		gameArea.context.drawImage(image, this.x, this.y, cellSize, cellSize);
 	};
 	this.draw();
 
