@@ -38,7 +38,7 @@ function updateGameArea() {
 
 var gameArea = {
 	canvas : document.createElement("canvas"),
-	scoreDOM : document.getElementById("score"),
+	scoreDOM : document.getElementsByClassName("score"),
 	rate : 100,
 	running : false, 
 	width : 700,
@@ -61,7 +61,7 @@ var gameArea = {
 		var main = document.getElementsByClassName("main-game")[0];
 		main.insertBefore(this.canvas, main.childNodes[0]);
 
-		this.scoreDOM.innerHTML = "Score: " + this.score;
+		this.scoreDOM[0].innerHTML = "Score: " + this.score;
 		
 	},
 	start : function(){
@@ -78,7 +78,8 @@ var gameArea = {
 	},
 	updateScore : function(){
 		this.score++;
-		this.scoreDOM.innerHTML = "Score: " + this.score;
+		this.scoreDOM[0].innerHTML = "Score: " + this.score;
+		this.scoreDOM[1].innerHTML = "Score: " + this.score;
 	}
 }
  

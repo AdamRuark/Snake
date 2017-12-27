@@ -12,8 +12,7 @@
 		<header>
 			<h1>
 				Snake
-			</h1>
-			
+			</h1>			
 		</header>
 		<main>
 
@@ -24,21 +23,18 @@
 				<img id="smile-up" src="icons/smile-up.png">
 				<img id="smile-right" src="icons/smile-right.png">				
 				<img id="smile-down" src="icons/smile-down.png">
-
 			</div>
 
 			<!-- Modal -->
 		    <div class="modal-backdrop">
 		    	<div class="modal hidden" id="game-over">
-		    		<h2 class="modal-header">
-		    			Game Over
-		    		</h2>
-		    		<input type="button" name="New Game" value="New Game" onclick=modal.newGame()>
+		    		<h2 class="modal-header">Game Over</h2>
+		    		<p class="score final-score"></p>
+		    		<input type="button" class="new-game" value="New Game" onclick=modal.newGame()>
 		    	</div>
+
 		    	<div class ="modal" id="settings">
-		    		<h2 class="modal-header">
-		    			Settings
-		    		</h2>
+		    		<h2 class="modal-header">Change Settings</h2>
 
 		    		<table>
 		    			<tr>
@@ -53,10 +49,9 @@
 		    			</tr>
 		    		</table>
 
-		    		<input type="button" name="Accept" value="Accept" onclick=modal.closeSettings(true)>
-		    		<input type="button" name="Cancel" value="Cancel" onclick=modal.closeSettings(false)>
+		    		<input type="button" value="Accept" onclick=modal.closeSettings(true)>
+		    		<input type="button" value="Cancel" onclick=modal.closeSettings(false)>
 		    	</div>
-
 		    </div>
 
 			<!-- Actual Content -->
