@@ -234,6 +234,8 @@ function Snake(x, y, size) {
 			this.body[i].draw(newLocation.x, newLocation.y);
 			newLocation = Object.assign({}, oldLocation);
 		}
+
+		this.body[0].smile((this.direction-37)*90);
 	};
 
 	this.move = function(){
@@ -282,6 +284,10 @@ function Body(x, y, size){
 	this.size = size;
 	this.x = x;
 	this.y = y;
+	this.left = document.getElementById("smile-left");
+	this.up = document.getElementById("smile-up");
+	this.right = document.getElementById("smile-right");
+	this.down = document.getElementById("smile-down");
 
 	this.draw = function(newX, newY){
 		this.x = newX;
@@ -289,9 +295,25 @@ function Body(x, y, size){
 		gameArea.context.fillStyle = "#d84a40";
 		gameArea.context.fillRect(this.x+1, this.y+1, this.size-2, this.size-2);
 	};
+
+	this.smile = function(tilt){
+		var icon;
+
+		switch(tilt){
+			case 0: icon = this.left; break;
+			case 90: icon = this.up; break;
+			case 180: icon = this.right; break;
+			default: icon = this.down; break;
+		}
+
+		gameArea.context.drawImage(icon, this.x, this.y, this.size, this.size);
+	}
 }
 
 function Star(cellSize, cellCount){
+
+	this.icon = document.getElementById("star");
+
 	this.validStarPos = function(){
 		//check to see if star appears in/on snake
 		for(var i = 0; i < snake.body.length; ++i){
@@ -335,10 +357,7 @@ function Star(cellSize, cellCount){
 	};
 
 	this.draw = function(){
-		image = document.getElementById("star");
-		gameArea.context.drawImage(image, this.x, this.y, cellSize, cellSize);
+		gameArea.context.drawImage(this.icon, this.x, this.y, cellSize, cellSize);
 	};
 	this.draw();
-
-	
 }
