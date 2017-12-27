@@ -17,6 +17,7 @@ function startGame(cellCount, speed) {
 
 function updateGameArea() {
 	//update the snake status
+	snake.move();
 	if(snake.checkCollision()){
 		gameArea.end();
 		return;
@@ -27,7 +28,6 @@ function updateGameArea() {
 		star.move();
 	}
 
-	snake.move();
 	//redraw the game
 	gameArea.clear();
 	board.draw();
