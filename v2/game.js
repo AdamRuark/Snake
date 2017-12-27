@@ -1,15 +1,14 @@
-window.onload = startGame;
+window.onload = function(){startGame(20, 300)};
 window.addEventListener('keydown', function(e){
 	gameArea.key = e.keyCode;
 	inputHandler(snake);
 });
 
-function startGame() {
+function startGame(cellCount, speed) {
 	gameArea.width = 700;
-	var cellCount = 25;
 	var cellWidth = gameArea.width/cellCount;
 
-	gameArea.create();
+	gameArea.create(speed);
 	board = new Board(gameArea.width, cellCount, cellWidth);
 	snake = new Snake(cellWidth*Math.floor(cellCount/2), 0, cellWidth);
 	star = new Star(cellWidth, cellCount);
@@ -41,7 +40,7 @@ var gameArea = {
 	rate : 100,
 	running : false, 
 	width : 700,
-	create : function() {
+	create : function(rate) {
 		//TODO: Get start input from the user and define game state from that
 
 		this.canvas.width = this.width+1;
@@ -54,6 +53,7 @@ var gameArea = {
 		this.locked = false;
 		this.running = false;
 		this.score = 0;
+		this.rate = rate;
 
 		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
@@ -78,18 +78,48 @@ var gameArea = {
 		this.scoreDOM.innerHTML = "Score: " + this.score;
 	}
 }
-
+ 
 var modal = {
-	object : document.getElementsByClassName("modal-backdrop")[0],
+	backdrop : document.getElementsByClassName("modal-backdrop")[0],
 	endContents : document.getElementById("game-over"),
+	settings : document.getElementById("settings"),
+	sizeVal : document.getElementById("sizeVal"),
+	sizeSlider : document.getElementById("size"),
+	speedVal : document.getElementById("speedVal"),
+	speedSlider: document.getElementById("speed"),
+
+
 	gameOver : function(){
-		this.object.classList.remove("hidden");
+		this.backdrop.classList.remove("hidden");
 		this.endContents.classList.remove("hidden");
 	},
 	newGame : function(){
-		this.object.classList.add("hidden");
+		this.backdrop.classList.add("hidden");
 		this.endContents.classList.add("hidden");
-		startGame();
+		var speed = 400 - (this.speedSlider.value*100);
+		startGame(this.sizeSlider.value, speed);
+	},
+	openSettings : function(){
+		this.backdrop.classList.remove("hidden");
+		this.settings.classList.remove("hidden");
+	},
+	closeSettings : function(save){
+		if(save){
+			var speed = 400 - (this.speedSlider.value*100);
+			startGame(this.sizeSlider.value, speed);
+		}
+		this.backdrop.classList.add("hidden");
+		this.settings.classList.add("hidden");
+	},
+	updateSlider: function(num){
+		//update size display
+		if(!num){
+			this.sizeVal.innerHTML = this.sizeSlider.value;
+		}
+		//update speed display
+		else{
+			this.speedVal.innerHTML = this.speedSlider.value;
+		}
 	}
 }
 

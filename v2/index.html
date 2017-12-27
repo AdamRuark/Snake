@@ -28,9 +28,28 @@
 		    		<h2 class="modal-header">
 		    			Game Over
 		    		</h2>
-		    		<input type="button" name="New Game" value="New Game" onclick = modal.newGame()>
+		    		<input type="button" name="New Game" value="New Game" onclick=modal.newGame()>
 		    	</div>
 		    	<div class ="message-modal hidden" id="settings">
+		    		<h2 class="modal-header">
+		    			Settings
+		    		</h2>
+
+		    		<table>
+		    			<tr>
+		    				<td>Board Size</td>
+		    				<td id="sizeVal">20</td>
+		    				<td><input type="range" id="size" min="10" max="30" value="20" oninput=modal.updateSlider(0)></td>
+		    			</tr>
+		    			<tr>
+		    				<td>Game Speed</td>
+		    				<td id="speedVal">2</td>
+		    				<td><input type="range" id="speed" min="1" max="3" value="2" oninput=modal.updateSlider(1)></td>
+		    			</tr>
+		    		</table>
+
+		    		<input type="button" name="Accept" value="Accept" onclick=modal.closeSettings(true)>
+		    		<input type="button" name="Cancel" value="Cancel" onclick=modal.closeSettings(false)>
 		    	</div>
 
 		    </div>
@@ -38,7 +57,7 @@
 			<!-- Actual Content -->
 			<div class="sidebar">
 				<p id = "score" class="score">Score</p>
-				<input type="button" onclick="settingsMenu()" value="Settings" />
+				<input type="button" onclick=modal.openSettings() value="Settings" />
 			</div>
 			<div class="main-game">		
 				<!-- Snake game goes here -->		
