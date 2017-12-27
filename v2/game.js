@@ -19,6 +19,7 @@ function updateGameArea() {
 	snake.move();
 	if(snake.checkCollision()){
 		gameArea.end();
+		return;
 	}
 	if(snake.onStar()){
 		snake.pushBodyPart();
@@ -72,6 +73,7 @@ var gameArea = {
 		modal.gameOver();
 		clearInterval(this.interval);
 		this.running = false;
+		this.locked = true;
 	},
 	updateScore : function(){
 		this.score++;
@@ -92,6 +94,7 @@ var modal = {
 	gameOver : function(){
 		this.backdrop.classList.remove("hidden");
 		this.endContents.classList.remove("hidden");
+		console.log(gameArea.locked);
 	},
 	newGame : function(){
 		this.backdrop.classList.add("hidden");
@@ -102,6 +105,7 @@ var modal = {
 	openSettings : function(){
 		this.backdrop.classList.remove("hidden");
 		this.settings.classList.remove("hidden");
+		gameArea.locked = true;
 	},
 	closeSettings : function(save){
 		if(save){
@@ -110,6 +114,7 @@ var modal = {
 		}
 		this.backdrop.classList.add("hidden");
 		this.settings.classList.add("hidden");
+		gameArea.locked = false;
 	},
 	updateSlider: function(num){
 		var types = ["Slow", "Medium", "Fast"];
@@ -124,34 +129,34 @@ var modal = {
 }
 
 function inputHandler(snake) {
-	//this prevents user from entering multiple directions per step
-	if(gameArea.locked) return;
-
-	//if the user presses space and game is running, pause or play the game depending on current state
-	else if(gameArea.key == 32 && gameArea.running){
-		if(gameArea.interval){
-			clearInterval(gameArea.interval);
-			gameArea.interval = null;
-			gameArea.ignoreMove = true;
+	//lock keyboard input until told otherwise
+	if(!gameArea.locked){
+		//if the user presses space and game is running, pause or play the game depending on current state
+		if(gameArea.key == 32 && gameArea.running){
+			if(gameArea.interval){
+				clearInterval(gameArea.interval);
+				gameArea.interval = null;
+				gameArea.ignoreMove = true;
+			}
+			else {
+				gameArea.interval = setInterval(updateGameArea, gameArea.rate);
+				gameArea.ignoreMove = false;
+			}
 		}
-		else {
-			gameArea.interval = setInterval(updateGameArea, gameArea.rate);
-			gameArea.ignoreMove = false;
+
+		//handle snake direction
+		else if(validMoveKey() && gameArea.running){
+			snake.changeDirection();
+			gameArea.locked = true;
+		}
+
+		//start the game if the user presses enter
+		else if(gameArea.key == 13 && !gameArea.running){
+			console.log("here");
+			gameArea.running = true;
+			gameArea.start();
 		}
 	}
-
-	//handle snake direction
-	else if(validMoveKey() && gameArea.running){
-		snake.changeDirection();
-		gameArea.locked = true;
-	}
-
-	//start the game if the user presses enter
-	else if(gameArea.key == 13 && !gameArea.running){
-		gameArea.running = true;
-		gameArea.start();
-	}
-
 }
 
 function validMoveKey(){
