@@ -17,7 +17,6 @@ function startGame(cellCount, speed) {
 
 function updateGameArea() {
 	//update the snake status
-	snake.move();
 	if(snake.checkCollision()){
 		gameArea.end();
 		return;
@@ -28,6 +27,7 @@ function updateGameArea() {
 		star.move();
 	}
 
+	snake.move();
 	//redraw the game
 	gameArea.clear();
 	board.draw();
@@ -52,7 +52,7 @@ var gameArea = {
 		this.context.translate(0.5, 0.5);
 		this.context.imageSmoothingQuality = "high";
 		this.ignoreMove = false;
-		this.locked = false;
+		this.locked = true;
 		this.running = false;
 		this.score = 0;
 		this.rate = rate;
@@ -95,13 +95,13 @@ var modal = {
 	gameOver : function(){
 		this.backdrop.classList.remove("hidden");
 		this.endContents.classList.remove("hidden");
-		console.log(gameArea.locked);
 	},
 	newGame : function(){
 		this.backdrop.classList.add("hidden");
 		this.endContents.classList.add("hidden");
 		var speed = 400 - (this.speedSlider.value*100);
 		startGame(this.sizeSlider.value, speed);
+		this.openSettings();
 	},
 	openSettings : function(){
 		this.backdrop.classList.remove("hidden");
@@ -253,20 +253,21 @@ function Snake(x, y, size) {
 	};
 
 	this.changeDirection = function(){
-		//if thee new direction isn't the opposite direction, change it.
+		//if the new direction isn't the opposite direction, change it.
 		if(this.isValidMove()) {
 			this.direction = gameArea.key;
 		}
 	};
 
 	this.checkCollision = function(){
+		//collision with itself
 		for(var i = 1; i < this.body.length; ++i){
 			if(this.x == this.body[i].x && this.y == this.body[i].y){
 				return true;
 			}
 		}
 
-		//TODO: Check collision with itself
+		//collision with borders
 		return this.x < 0 || this.y <  0 || this.x >= board.size || this.y >= board.size;
 	};
 
@@ -299,6 +300,7 @@ function Body(x, y, size){
 	this.smile = function(tilt){
 		var icon;
 
+		//define icon based on what direction the snake is travelling
 		switch(tilt){
 			case 0: icon = this.left; break;
 			case 90: icon = this.up; break;
@@ -306,12 +308,12 @@ function Body(x, y, size){
 			default: icon = this.down; break;
 		}
 
+		//draw the smile
 		gameArea.context.drawImage(icon, this.x, this.y, this.size, this.size);
 	}
 }
 
 function Star(cellSize, cellCount){
-
 	this.icon = document.getElementById("star");
 
 	this.validStarPos = function(){
