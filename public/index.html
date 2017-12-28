@@ -30,7 +30,11 @@
 		    	<div class="modal hidden" id="game-over">
 		    		<h2 class="modal-header">Game Over</h2>
 		    		<p class="score final-score"></p>
-		    		<input type="button" class="new-game" value="New Game" onclick=modal.newGame()>
+		    		<form onsubmit=modal.newGame()>
+		    			<input type="text" id="username" placeholder="Name" required>
+			    		<input type="submit" class="new-game" value="Save Score">
+		    		</form>
+		    		
 		    	</div>
 
 		    	<div class ="modal" id="settings">

@@ -17,13 +17,10 @@ function startGame(cellCount, speed) {
 
 function addScore(){
 	var score = gameArea.score;
+	var username = document.getElementById("username").value;
 	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			// document.getElementById("demo").innerHTML = this.responseText;
-		}
-	};
-	xhttp.open("GET", "addScore/" + score, true);
+	
+	xhttp.open("GET", "addScore/" + score + "/" + username, true);
 	xhttp.send();
 }
 
@@ -70,7 +67,6 @@ var gameArea = {
 		this.rate = rate;
 
 		this.scoreDOM[1].innerHTML = "Score: " + this.score;
-		console.log(this.scoreDOM[1]);
 
 		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
@@ -85,7 +81,6 @@ var gameArea = {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 	end : function(){
-		addScore();
 		modal.gameOver();
 		clearInterval(this.interval);
 		this.running = false;
@@ -116,6 +111,7 @@ var modal = {
 		this.backdrop.classList.add("hidden");
 		this.endContents.classList.add("hidden");
 		var speed = 400 - (this.speedSlider.value*100);
+		addScore();
 		startGame(this.sizeSlider.value, speed);
 		this.openSettings();
 	},
