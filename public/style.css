@@ -126,6 +126,11 @@ main {
 	padding-left: 25%;
 }
 
+#username {
+	padding: 5px;
+	width: 30%;
+}
+
 canvas {
 	box-shadow: 0px 0px 5px #929292;
 	background-color: white;

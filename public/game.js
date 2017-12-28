@@ -66,6 +66,7 @@ var gameArea = {
 		this.score = 0;
 		this.rate = rate;
 
+		this.scoreDOM[0].innerHTML = "Score: " + this.score;
 		this.scoreDOM[1].innerHTML = "Score: " + this.score;
 
 		//add to main window
