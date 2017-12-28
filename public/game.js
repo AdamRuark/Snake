@@ -107,6 +107,7 @@ var modal = {
 	gameOver : function(){
 		this.backdrop.classList.remove("hidden");
 		this.endContents.classList.remove("hidden");
+		document.getElementById("username").focus();
 	},
 	newGame : function(){
 		this.backdrop.classList.add("hidden");
