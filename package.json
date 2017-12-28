@@ -1,0 +1,26 @@
+{
+  "name": "snake",
+  "version": "1.0.0",
+  "description": "Snake Game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdamRuark/Snake.git"
+  },
+  "keywords": [
+    "snake"
+  ],
+  "author": "AdamRuark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdamRuark/Snake/issues"
+  },
+  "homepage": "https://github.com/AdamRuark/Snake#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
