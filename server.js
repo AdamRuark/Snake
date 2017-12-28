@@ -5,8 +5,8 @@ var port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, '/public/')));
 
-app.get('/addScore', function(req, res){
-	console.log("Score added");
+app.get('/addScore/:score', function(req, res, next){
+	console.log("Score added: " + req.params.score);
 });
 
 app.get('/*', function (req, res) {

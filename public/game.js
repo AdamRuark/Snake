@@ -15,6 +15,18 @@ function startGame(cellCount, speed) {
 	star = new Star(cellWidth, cellCount);
 }
 
+function addScore(){
+	var score = gameArea.score;
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			// document.getElementById("demo").innerHTML = this.responseText;
+		}
+	};
+	xhttp.open("GET", "addScore/" + score, true);
+	xhttp.send();
+}
+
 function updateGameArea() {
 	//update the snake status
 	snake.move();
@@ -57,11 +69,13 @@ var gameArea = {
 		this.score = 0;
 		this.rate = rate;
 
+		this.scoreDOM[1].innerHTML = "Score: " + this.score;
+		console.log(this.scoreDOM[1]);
+
 		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
 		main.insertBefore(this.canvas, main.childNodes[0]);
 
-		this.scoreDOM[0].innerHTML = "Score: " + this.score;
 		
 	},
 	start : function(){
@@ -71,6 +85,7 @@ var gameArea = {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 	end : function(){
+		addScore();
 		modal.gameOver();
 		clearInterval(this.interval);
 		this.running = false;
