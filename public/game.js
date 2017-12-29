@@ -52,8 +52,6 @@ var gameArea = {
 	running : false, 
 	width : 700,
 	create : function(rate) {
-		//TODO: Get start input from the user and define game state from that
-
 		this.canvas.width = this.width+1;
 		this.canvas.height = this.width+1;
 		this.context = this.canvas.getContext("2d");
@@ -72,8 +70,6 @@ var gameArea = {
 		//add to main window
 		var main = document.getElementsByClassName("main-game")[0];
 		main.insertBefore(this.canvas, main.childNodes[0]);
-
-		
 	},
 	start : function(){
 		this.interval = setInterval(updateGameArea, this.rate);

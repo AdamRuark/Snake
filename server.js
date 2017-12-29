@@ -4,29 +4,43 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 3000;
 
-const file = "public/scores.json";
+var jsonpath = './public/scores.json';
+var data = require(jsonpath);
 
+//serve static files
 app.use(express.static(path.join(__dirname, '/public/')));
 
-app.get('/addScore/:score/:username', function(req, res, next){
-	console.log(req.params.username + ": " + req.params.score);
-	fs.appendFile(file, req.params.username + ": " + req.params.score + "\n");
+//save current score
+app.get('/addScore/:score/:username', function(req, res){
+
+	//create new score object
+	var key = req.params.username
+	var obj = {};
+	obj[key] = req.params.score;
+
+	//add to data table
+	data.push(obj);
+
+	//copy data table to json file
+	fs.writeFileSync(jsonpath, JSON.stringify(data, null, "\t"));
+	console.log("Score Saved");
+});
+
+//send scores to client
+app.get('/getScore', function(req, res){
+	console.log("Sent Score");
+});
+
+//special command to purge score list
+app.get('/purge', function(req, res){
+	data = [];
+	fs.writeFileSync(jsonpath, JSON.stringify(data, null, "\t"));
+	console.log("Scores purged");
+	res.sendFile(__dirname + '/public/index.html');
 
 });
 
-app.get('/*', function (req, res) {
-	res.render('public/index');
-});
-
-//set up server ports
+//set up server port
 app.listen(port, function(){
 	console.log("Server has started on port: " + port + "\n");
 });
-
-//TODO: Score Json object
-/*	Idea: One json object 'table'
-	Each entry is a place on the table (so an array)
-	Each array entry holds an object
-	Each object contains 2 values: name, score	
-	Sort by score
-*/
