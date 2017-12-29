@@ -63,23 +63,30 @@
 
 			<!-- Actual Content -->
 			<div class="sidebar">
-				<p id = "score" class="score">Score:</p>
-				<table class="controls">
-					<th>Controls</th>
-					<tr>
-						<td>Pause:</td>
-						<td>Space</td>
-					</tr>
-					<tr>
-						<td>Move:</td>
-						<td>WASD/Arrow Keys</td>
-					</tr>
-					<tr>
-						<td>Start:</td>
-						<td>Enter</td>
-					</tr>
-				</table>
-				<input type="button" onclick=modal.openSettings() value="Settings" />
+				<div class="section">
+					<p id = "score" class="score">Score:</p>
+					<table class="controls">
+						<th>Controls</th>
+						<tr>
+							<td>Pause:</td>
+							<td>Space</td>
+						</tr>
+						<tr>
+							<td>Move:</td>
+							<td>WASD/Arrow Keys</td>
+						</tr>
+						<tr>
+							<td>Start:</td>
+							<td>Enter</td>
+						</tr>
+					</table>
+					<input type="button" onclick=modal.openSettings() value="Settings" />
+				</div>
+				<div class="section">
+					<p>High Scores</p>
+					<ol>
+					</ol>
+				</div>
 			</div>
 			<div class="main-game">		
 				<!-- Snake game goes here -->		
