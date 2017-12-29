@@ -1,8 +1,11 @@
-window.onload = function(){startGame(20, 200)};
+window.onload = function(e){
+	startGame(20, 200);
+	getScoreList();
+};
+
 window.addEventListener('keydown', function(e){
 	gameArea.key = e.keyCode;
 	inputHandler(snake);
-
 });
 
 function startGame(cellCount, speed) {

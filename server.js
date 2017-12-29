@@ -31,6 +31,7 @@ app.get('/addScore/:score/:username', function(req, res){
 //send scores to client
 app.get('/getScore', function(req, res){
 	console.log("Sent Score");
+	res.send(data);
 });
 
 //special command to purge score list
