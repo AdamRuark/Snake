@@ -14,12 +14,14 @@ app.use(express.static(path.join(__dirname, '/public/')));
 app.get('/addScore/:score/:username', function(req, res){
 
 	//create new score object
-	var key = req.params.username
-	var obj = {};
-	obj[key] = req.params.score;
+	var obj = {
+		name: req.params.username,
+		score: req.params.score
+	};
 
 	//add to data table
 	data.push(obj);
+	data.sort(compare);
 
 	//copy data table to json file
 	fs.writeFileSync(jsonpath, JSON.stringify(data, null, "\t"));
@@ -44,3 +46,7 @@ app.get('/purge', function(req, res){
 app.listen(port, function(){
 	console.log("Server has started on port: " + port + "\n");
 });
+
+function compare(a, b){
+	return b.score - a.score;
+}
