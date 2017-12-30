@@ -23,6 +23,12 @@ app.get('/addScore/:score/:username', function(req, res){
 	data.push(obj);
 	data.sort(compare);
 
+	//limit length to 200 scores
+	if(data.length > 100) {
+		data = data.slice(0, 100);
+		console.log(data);
+	}
+
 	//copy data table to json file
 	fs.writeFileSync(jsonpath, JSON.stringify(data, null, "\t"));
 	console.log("Score Saved");
