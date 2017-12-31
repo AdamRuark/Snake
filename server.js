@@ -36,12 +36,10 @@ app.get('/addScore/:score/:username', function(req, res){
 
 	//copy data table to json file
 	fs.writeFileSync(jsonpath, JSON.stringify(data, null, "\t"));
-	console.log("Score Saved");
 });
 
 //send scores to client
 app.get('/getScore', function(req, res){
-	console.log("Sent Score");
 	res.send(data);
 });
 
@@ -49,7 +47,6 @@ app.get('/getScore', function(req, res){
 app.get('/purge', function(req, res){
 	data = [];
 	fs.writeFileSync(jsonpath, JSON.stringify(data, null, "\t"));
-	console.log("Scores purged");
 	res.sendFile(__dirname + '/public/index.html');
 
 });
