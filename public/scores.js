@@ -12,6 +12,7 @@ function getScoreList(){
 
 function displayScoreList(scores){
 	var scoresDOM = document.getElementById("score-list");
+	scoresDOM.innerHTML = "";
 	for(var i = 0; i < 5; ++i){
 		if(i < scores.length){
 			var bullet = document.createElement('li');

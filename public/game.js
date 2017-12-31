@@ -1,6 +1,5 @@
 window.onload = function(e){
 	startGame(20, 200);
-	getScoreList();
 };
 
 window.addEventListener('keydown', function(e){
@@ -16,6 +15,8 @@ function startGame(cellCount, speed) {
 	board = new Board(gameArea.width, cellCount, cellWidth);
 	snake = new Snake(cellWidth*Math.floor(cellCount/2), 0, cellWidth);
 	star = new Star(cellWidth, cellCount);
+
+	getScoreList();
 }
 
 function addScore(){
