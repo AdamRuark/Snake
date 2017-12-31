@@ -19,6 +19,9 @@ function displayScoreList(data){
 	for(var i = 0; i < 2; ++i){
 		var th = document.createElement("th");
 		var text = document.createTextNode(headers[i]);
+
+		th.classList.add("score-cell");
+
 		th.appendChild(text);
 		labels.appendChild(th);
 	}
@@ -30,6 +33,9 @@ function displayScoreList(data){
 			for(value in data[i]){
 				var td = document.createElement("td");
 				var text = document.createTextNode(data[i][value]);
+
+				td.classList.add("score-cell");
+
 				td.appendChild(text);
 				row.appendChild(td);
 			}
