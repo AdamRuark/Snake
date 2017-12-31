@@ -203,3 +203,9 @@ table {
 #score-list tr:nth-child(even), #preview-list tr:nth-child(even) {
 	background-color: #E1DFDF;
 }
+
+#username {
+	display: block;
+	margin: auto;
+	margin-bottom: 10px;
+}

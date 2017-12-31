@@ -32,9 +32,10 @@
 				<div class="modal hidden" id="game-over">
 					<h2 class="modal-header">Game Over</h2>
 					<p class="score final-score"></p>
-					<form onsubmit="modal.newGame();return false">
+					<form onsubmit="modal.newGame(true);return false">
 						<input type="text" id="username" placeholder="Name" pattern="[A-Za-z]{3,10}" title="3 - 10 Alphabetical characters only" required>
 						<input type="submit" class="new-game" value="Save Score">
+						<input type="button" value="Cancel" onclick=modal.newGame(false)>
 					</form>
 				</div>
 

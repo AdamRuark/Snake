@@ -109,11 +109,11 @@ var modal = {
 		this.endContents.classList.remove("hidden");
 		document.getElementById("username").focus();
 	},
-	newGame : function(){
+	newGame : function(val){
 		this.backdrop.classList.add("hidden");
 		this.endContents.classList.add("hidden");
 		var speed = 400 - (this.speedSlider.value*100);
-		addScore();
+		if(val) addScore();
 		startGame(this.sizeSlider.value, speed);
 		this.openSettings();
 	},
