@@ -111,8 +111,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 main {
-	padding: 2% 20vw 0 20vw;
-	margin: 0;
+	margin: 2% 20% 0 20%;
 }
 
 .main-game {
