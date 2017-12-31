@@ -97,12 +97,12 @@ var gameArea = {
 var modal = {
 	backdrop : document.getElementsByClassName("modal-backdrop")[0],
 	endContents : document.getElementById("game-over"),
+	allScores : document.getElementById("all-scores"),
 	settings : document.getElementById("settings"),
 	sizeVal : document.getElementById("sizeVal"),
 	sizeSlider : document.getElementById("size"),
 	speedVal : document.getElementById("speedVal"),
 	speedSlider: document.getElementById("speed"),
-
 
 	gameOver : function(){
 		this.backdrop.classList.remove("hidden");
@@ -140,6 +140,16 @@ var modal = {
 		else {
 			this.speedVal.innerHTML = types[this.speedSlider.value-1];
 		}
+	},
+	listScores: function(){
+		this.backdrop.classList.remove("hidden");
+		this.allScores.classList.remove("hidden");	
+		gameArea.locked = true;
+	},
+	closeScores: function(){
+		this.backdrop.classList.add("hidden");
+		this.allScores.classList.add("hidden");
+		gameArea.locked = false;
 	}
 }
 

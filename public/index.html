@@ -4,8 +4,8 @@
 	<head>
 		<title>Snake</title>
 		<link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-        <link rel="icon"" href="icons/snake.png">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+		<link rel="icon"" href="icons/snake.png">
 	</head>
 
 	<body>
@@ -26,39 +26,49 @@
 			</div>
 
 			<!-- Modal -->
-		    <div class="modal-backdrop">
+			<div class="modal-backdrop">
 
-		    	<!-- Game Over -->
-		    	<div class="modal hidden" id="game-over">
-		    		<h2 class="modal-header">Game Over</h2>
-		    		<p class="score final-score"></p>
-		    		<form onsubmit="modal.newGame();return false">
-		    			<input type="text" id="username" placeholder="Name" pattern="[A-Za-z]{3,10}" title="3 - 10 Alphabetical characters only" required>
-			    		<input type="submit" class="new-game" value="Save Score">
-		    		</form>
-		    	</div>
+				<!-- Game Over -->
+				<div class="modal hidden" id="game-over">
+					<h2 class="modal-header">Game Over</h2>
+					<p class="score final-score"></p>
+					<form onsubmit="modal.newGame();return false">
+						<input type="text" id="username" placeholder="Name" pattern="[A-Za-z]{3,10}" title="3 - 10 Alphabetical characters only" required>
+						<input type="submit" class="new-game" value="Save Score">
+					</form>
+				</div>
 
-		    	<!-- Settings -->
-		    	<div class ="modal" id="settings">
-		    		<h2 class="modal-header">Change Settings</h2>
+				<!-- Settings -->
+				<div class ="modal" id="settings">
+					<h2 class="modal-header">Change Settings</h2>
 
-		    		<table>
-		    			<tr>
-		    				<td class="row-label">Size</td>
-		    				<td><input type="range" id="size" min="10" max="30" value="20" oninput=modal.updateSlider(0)></td>
-		    				<td id="sizeVal">20 x 20</td>
-		    			</tr>
-		    			<tr>
-		    				<td class="row-label">Speed</td>
-		    				<td><input type="range" id="speed" min="1" max="3" value="2" oninput=modal.updateSlider(1)></td>
+					<table id="slider-container">
+						<tr>
+							<td class="row-label">Size</td>
+							<td><input type="range" id="size" min="10" max="30" value="20" oninput=modal.updateSlider(0)></td>
+							<td id="sizeVal">20 x 20</td>
+						</tr>
+						<tr>
+							<td class="row-label">Speed</td>
+							<td><input type="range" id="speed" min="1" max="3" value="2" oninput=modal.updateSlider(1)></td>
 							<td id="speedVal">Medium</td>
-		    			</tr>
-		    		</table>
+						</tr>
+					</table>
 
-		    		<input type="button" value="Accept" onclick=modal.closeSettings(true)>
-		    		<input type="button" value="Cancel" onclick=modal.closeSettings(false)>
-		    	</div>
-		    </div>
+					<input type="button" value="Accept" onclick=modal.closeSettings(true)>
+					<input type="button" value="Cancel" onclick=modal.closeSettings(false)>
+				</div>
+
+				<!-- All Scores -->
+				<div class="modal tall hidden" id="all-scores">
+					<h2 class="modal-header">All Scores</h2>
+					<div class="scroll">
+						<table id="score-list"></table>
+					</div>
+					<input type="button" value="Close" onclick=modal.closeScores()>
+				</div>
+
+			</div>
 
 			<!-- Actual Content -->
 			<div class="sidebar">
@@ -81,14 +91,10 @@
 					</table>
 					<input type="button" onclick=modal.openSettings() value="Settings" />
 				</div>
-				<div class="section">
+				<div class="section bottom">
 					<p>High Scores</p>
-					<table id="score-list">
-						<tr>
-							<th>Name</th>
-							<th>Score</th>
-						</tr>
-					</table>
+					<table id="preview-list"></table>
+					<input type="button" onclick=modal.listScores() value="View All" />
 				</div>
 			</div>
 			<div class="main-game">		
