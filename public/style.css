@@ -156,7 +156,7 @@ table {
 	width: 60px;
 }
 
-.controls {
+.controls, #score-list {
 	display: block;
 	text-align: left;
 	font-size: 14px;
