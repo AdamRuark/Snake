@@ -17,7 +17,14 @@ function fillTopList(data){
 	allScores.innerHTML = "";
 
 	var headers = ["Name", "Score"];
-	var labels = document.createElement("tr");
+
+	//table header
+	var labels = document.createElement("thead");
+	var row = document.createElement("tr");
+	labels.appendChild(row);
+	labels.style.position = "sticky";
+	labels.style.top = 0;
+
 	for(var i = 0; i < 2; ++i){
 		var th = document.createElement("th");
 		var text = document.createTextNode(headers[i]);
@@ -25,26 +32,25 @@ function fillTopList(data){
 		th.appendChild(text);
 		labels.appendChild(th);
 	}
-	labels.classList.add("underline");
 	previewScores.appendChild(labels.cloneNode(true));
 	allScores.appendChild(labels);
 
+	//table contents
+	var content = document.createElement("tbody");
+	var clone = content.cloneNode(true);
 	for(var i = 0; i < data.length; ++i){
-		var row = document.createElement("tr");
+		row = document.createElement("tr");
 		for(value in data[i]){
 			var td = document.createElement("td");
 			var text = document.createTextNode(data[i][value]);
-			// td.classList.add("score-cell");
 			td.appendChild(text);
 			row.appendChild(td);
 		}
 		if(i < 5){
-			previewScores.appendChild(row.cloneNode(true));
+			clone.appendChild(row.cloneNode(true));
 		}
-		allScores.appendChild(row);
+		content.appendChild(row);
 	}
-}
-
-function fillAllList(data){
-
+	previewScores.appendChild(clone);
+	allScores.appendChild(content);
 }

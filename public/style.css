@@ -178,7 +178,7 @@ table {
 
 .scroll {
 	height: 40vh;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .scroll::-webkit-scrollbar {
@@ -197,9 +197,6 @@ table {
 #score-list, #preview-list {
 	text-align: left;
 	border-collapse: collapse;
-}
-
-.underline th{
 	font-size: 18px;
 }
 
