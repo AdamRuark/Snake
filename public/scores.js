@@ -3,14 +3,14 @@ function getScoreList(){
 
 	xhttp.onreadystatechange = function() { 
 		if (xhttp.readyState == 4 && xhttp.status == 200){
-			fillTopList(JSON.parse(xhttp.responseText));
+			fillLists(JSON.parse(xhttp.responseText));
 		}
 	}
 	xhttp.open("GET", "getScore", true);
 	xhttp.send();
 }
 
-function fillTopList(data){
+function fillLists(data){
 	var previewScores = document.getElementById("preview-list");
 	var allScores = document.getElementById("score-list");
 	previewScores.innerHTML = "";
