@@ -113,7 +113,7 @@ var modal = {
 		this.backdrop.classList.add("hidden");
 		this.endContents.classList.add("hidden");
 		var speed = 400 - (this.speedSlider.value*100);
-		if(val) addScore();
+		if(val) {addScore()};
 		startGame(this.sizeSlider.value, speed);
 		this.openSettings();
 	},
