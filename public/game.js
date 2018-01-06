@@ -12,7 +12,7 @@ function startGame(cellCount, speed) {
 	var cellWidth = gameArea.width/cellCount;
 
 	gameArea.create(speed);
-	board = new Board(gameArea.width, cellCount, cellWidth);
+	board = new Board(gameArea.width, cellWidth);
 	snake = new Snake(cellWidth*Math.floor(cellCount/2), 0, cellWidth);
 	star = new Star(cellWidth, cellCount);
 
@@ -213,19 +213,18 @@ function validMoveKey(){
 	return true;
 }
 
-function Board(size, num, width){
-	this.size = size;
-	this.num = num;
-	this.width = width;
+function Board(boardWidth, cellWidth){
+	this.boardWidth = boardWidth;
+	this.cellWidth = cellWidth;
 
 	this.draw = function(){
 		ctx = gameArea.context;
-		for (var i = 0; i <= this.size; i += this.width) {
+		for (var i = 0; i <= this.boardWidth; i += this.cellWidth) {
 			ctx.moveTo(i, 0);
-			ctx.lineTo(i, this.size);
+			ctx.lineTo(i, this.boardWidth);
 
 			ctx.moveTo(0, i);
-			ctx.lineTo(this.size, i);
+			ctx.lineTo(this.boardWidth, i);
 		}
 		ctx.strokeStyle = "#b8b8b8";
 		ctx.lineWidth = 1;
@@ -296,7 +295,7 @@ function Snake(x, y, size) {
 	};
 
 	this.onStar = function(){
-		return this.x == star.x && this.y == star.y;
+		return Math.round(this.x) == Math.round(star.x) && Math.round(this.y) == Math.round(star.y);
 	};
 
 	this.pushBodyPart = function(){
@@ -343,7 +342,7 @@ function Star(cellSize, cellCount){
 	this.validStarPos = function(){
 		//check to see if star appears in/on snake
 		for(var i = 0; i < snake.body.length; ++i){
-			if(snake.body[i].x == this.x && snake.body[i].y == this.y){
+			if(Math.round(snake.body[i].x) == Math.round(this.x) && Math.round(snake.body[i].y) == Math.round(this.y)){
 				return false;
 			}
 		}
