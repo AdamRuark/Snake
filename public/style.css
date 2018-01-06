@@ -41,7 +41,7 @@ input[type=button], input[type=submit] {
 	padding: 10px;
 	border-radius: 3px;
 	background-color: #CBC7C7;
-	border: none;
+	border: solid 1px #b7b7b7;
 	width: 100px;
 	margin: 10px;
 	margin-bottom: auto;
