@@ -291,7 +291,7 @@ function Snake(x, y, size) {
 		}
 
 		//collision with borders
-		return this.x < 0 || this.y <  0 || this.x >= board.size || this.y >= board.size;
+		return this.x < 0 || this.y <  0 || this.x >= board.boardWidth || this.y >= board.boardWidth;
 	};
 
 	this.onStar = function(){
